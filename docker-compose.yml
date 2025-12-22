@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  ynab-mcp:
+    build: .
+    image: ynab-mcp-server:latest
+    container_name: ynab-mcp-server
+    ports:
+      - "8080:8080"
+    environment:
+      # REQUIRED: Your YNAB personal access token
+      - YNAB_ACCESS_TOKEN=${YNAB_ACCESS_TOKEN}
+
+      # OPTIONAL: Authentication token for MCP HTTP endpoint
+      # - MCP_AUTH_TOKEN=${MCP_AUTH_TOKEN}
+
+      # OPTIONAL: Log level (info, debug)
+      - YNAB_MCP_LOG_LEVEL=info
+
+      # OPTIONAL: HTTP settings (defaults shown)
+      # - YNAB_MCP_HTTP_PORT=8080
+      # - YNAB_MCP_HTTP_HOST=0.0.0.0
+
+    # Use environment file if available
+    env_file:
+      - .env
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+    # Resource limits (optional)
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+        reservations:
+          cpus: '0.25'
+          memory: 64M
+
+# Create a .env file with:
+# YNAB_ACCESS_TOKEN=your-token-here
+# MCP_AUTH_TOKEN=your-mcp-auth-token-here (optional)

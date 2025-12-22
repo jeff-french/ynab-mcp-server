@@ -1,0 +1,8 @@
+{
+  "ynab_access_token": "your-ynab-token-from-https://app.ynab.com/settings/developer",
+  "transport_mode": "stdio",
+  "http_port": 8080,
+  "http_host": "0.0.0.0",
+  "mcp_auth_token": "",
+  "log_level": "info"
+}

@@ -1,0 +1,40 @@
+[Unit]
+Description=YNAB MCP Server
+Documentation=https://github.com/jeff-french/ynab-mcp-server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ynab-mcp
+Group=ynab-mcp
+
+# Environment variables
+Environment="YNAB_ACCESS_TOKEN=your-ynab-token-here"
+# Environment="MCP_AUTH_TOKEN=your-mcp-auth-token-here"
+Environment="YNAB_MCP_LOG_LEVEL=info"
+
+# Alternatively, load from environment file
+# EnvironmentFile=/etc/ynab-mcp/config.env
+
+# Start the server in HTTP mode
+ExecStart=/usr/local/bin/ynab-mcp-server serve --transport=http --port=8080
+
+# Restart on failure
+Restart=on-failure
+RestartSec=5s
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/ynab-mcp
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ynab-mcp-server
+
+[Install]
+WantedBy=multi-user.target
