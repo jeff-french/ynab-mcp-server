@@ -2,79 +2,13 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+@AGENTS.md
 
-This is a Go-based MCP (Model Context Protocol) server for YNAB (You Need A Budget) that supports both stdio (local) and HTTP (remote) transport modes. The server implements YNAB API operations as MCP tools and compiles to a single distributable binary.
+## Claude-Specific Instructions
 
-## Commit Message Convention
+### Key Commands
 
-This project uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for all commit messages. This enables automated changelog generation and semantic versioning.
-
-### Commit Message Format
-
-```
-<type>[optional scope]: <description>
-
-[optional body]
-
-[optional footer(s)]
-```
-
-### Types
-
-- **feat**: A new feature (triggers minor version bump)
-- **fix**: A bug fix (triggers patch version bump)
-- **docs**: Documentation only changes
-- **style**: Changes that don't affect code meaning (formatting, missing semicolons, etc.)
-- **refactor**: Code change that neither fixes a bug nor adds a feature
-- **perf**: Performance improvement
-- **test**: Adding or updating tests
-- **build**: Changes to build system or dependencies
-- **ci**: Changes to CI configuration files and scripts
-- **chore**: Other changes that don't modify src or test files
-- **revert**: Reverts a previous commit
-
-### Breaking Changes
-
-Add `!` after the type/scope to indicate a breaking change (triggers major version bump):
-```
-feat!: remove support for HTTP/1.0
-```
-
-Or include `BREAKING CHANGE:` in the footer:
-```
-feat: add new authentication method
-
-BREAKING CHANGE: old auth tokens are no longer supported
-```
-
-### Examples
-
-```
-feat(transactions): add support for bulk transaction import
-fix(auth): correct token refresh logic
-docs(readme): update installation instructions
-test(ynab-client): add tests for retry logic
-refactor(server): simplify transport initialization
-perf(api): reduce memory allocation in response parsing
-```
-
-### Scopes
-
-Common scopes in this project:
-- `server` - MCP server core
-- `transport` - stdio or HTTP transport
-- `tools` - MCP tool implementations
-- `ynab` - YNAB API client
-- `config` - Configuration handling
-- `auth` - Authentication logic
-- `transactions`, `budgets`, `accounts`, `categories`, `payees` - Specific features
-
-**IMPORTANT**: Always use Conventional Commits format for all commits. The release process depends on this format to generate changelogs and determine version bumps.
-
-## Key Commands
-
-### Development
+#### Development
 ```bash
 # Run in stdio mode (local/Claude Desktop)
 go run main.go --transport=stdio
@@ -95,7 +29,7 @@ go test ./internal/tools -v
 go test -race ./...
 ```
 
-### Building for Distribution
+#### Building for Distribution
 ```bash
 # Build for current platform
 make build
@@ -170,113 +104,6 @@ docker-compose up
 docker run -p 8080:8080 -e YNAB_ACCESS_TOKEN=xxx ynab-mcp-server
 ```
 
-## Architecture
-
-### Dual Transport Design
-
-The server supports two MCP transport modes that share the same tool implementations:
-
-**stdio mode**: For local execution (Claude Desktop, CLI)
-- Reads JSON-RPC from stdin, writes to stdout
-- Default mode if no flag specified
-- Used in Claude Desktop `mcpServers` config
-
-**HTTP mode**: For remote deployment (cloud hosting)
-- HTTP server with POST /mcp/v1/messages endpoint
-- Streaming responses using chunked transfer encoding
-- Optional authentication middleware (MCP_AUTH_TOKEN)
-- Health check at /health
-
-### Project Structure
-
-```
-internal/
-├── server/      # Core MCP server logic (protocol handling)
-├── transport/   # Transport layer implementations
-│   ├── stdio/   # stdin/stdout transport
-│   └── http/    # HTTP streaming transport
-├── ynab/        # YNAB API client wrapper
-│   ├── client.go    # HTTP client with auth
-│   └── types.go     # YNAB API models
-├── tools/       # MCP tool implementations
-│   ├── budgets.go      # list_budgets, get_budget_details
-│   ├── accounts.go     # list_accounts, get_account_details
-│   ├── transactions.go # list/create/update transactions
-│   ├── categories.go   # list_categories, get_category_details
-│   └── payees.go       # list_payees
-└── config/      # Configuration loading (env vars + config file)
-```
-
-### Authentication Flow
-
-1. **YNAB API Authentication**: Required for all modes
-   - Bearer token from https://app.ynab.com/settings/developer
-   - Loaded from YNAB_ACCESS_TOKEN env var or ~/.config/ynab-mcp/config.json
-   - Passed in Authorization header to YNAB API
-
-2. **MCP Server Authentication**: Optional for HTTP mode
-   - Bearer token for remote server access (MCP_AUTH_TOKEN)
-   - Validated via middleware on /mcp/v1/messages endpoint
-   - Not used in stdio mode (local trust model)
-
-### Tool Implementation Pattern
-
-Each MCP tool follows this structure:
-```go
-type Tool struct {
-    Name        string
-    Description string
-    InputSchema map[string]interface{}
-}
-
-func (t *Tool) Execute(params map[string]interface{}, ynabClient *ynab.Client) (interface{}, error) {
-    // 1. Validate params against schema
-    // 2. Call YNAB API via client
-    // 3. Transform response to MCP format
-    // 4. Return structured JSON
-}
-```
-
-Tools must work identically in both stdio and HTTP modes.
-
-## Configuration
-
-### Environment Variables
-- `YNAB_ACCESS_TOKEN` (required): YNAB API personal access token
-- `TRANSPORT_MODE` (optional): "stdio" or "http", default stdio
-- `HTTP_PORT` (optional): Port for HTTP mode, default 8080
-- `HTTP_HOST` (optional): Host binding for HTTP mode, default 0.0.0.0
-- `MCP_AUTH_TOKEN` (optional): Authentication token for HTTP mode
-- `CORS_ENABLED` (optional): Enable CORS headers in HTTP mode
-
-### Config File
-Falls back to `~/.config/ynab-mcp/config.json`:
-```json
-{
-  "ynab_access_token": "your-token",
-  "transport_mode": "stdio",
-  "http_port": 8080
-}
-```
-
-Config file is created with defaults on first run if it doesn't exist.
-
-## YNAB API Integration
-
-The OpenAPI spec is at https://api.ynab.com/papi/open_api_spec.yaml
-
-### Key API Endpoints
-- GET /v1/budgets - List all budgets
-- GET /v1/budgets/{budget_id} - Get budget details
-- GET /v1/budgets/{budget_id}/accounts - List accounts
-- GET /v1/budgets/{budget_id}/transactions - List transactions
-- POST /v1/budgets/{budget_id}/transactions - Create transaction
-- PUT /v1/budgets/{budget_id}/transactions/{transaction_id} - Update transaction
-- GET /v1/budgets/{budget_id}/categories - List categories
-- GET /v1/budgets/{budget_id}/payees - List payees
-
-All requests require `Authorization: Bearer <token>` header.
-
 ## MCP Protocol Notes
 
 ### stdio Transport
@@ -290,15 +117,6 @@ All requests require `Authorization: Bearer <token>` header.
 - Each chunk is a JSON-RPC message
 - Content-Type: application/json
 - Supports SSE-style streaming for long-running operations
-
-## Testing Strategy
-
-1. Unit tests for each tool in `internal/tools/*_test.go`
-2. Integration tests for YNAB client (requires test token or mocks)
-3. Transport tests for stdio and HTTP modes
-4. End-to-end tests using MCP client library
-
-Mock YNAB API responses for reproducible tests.
 
 ## Deployment
 
