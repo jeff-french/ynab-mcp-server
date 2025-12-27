@@ -1,0 +1,3224 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>cmd: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/jeff-french/ynab-mcp-server/cmd/root.go (0.0%)</option>
+				
+				<option value="file1">github.com/jeff-french/ynab-mcp-server/cmd/serve.go (0.0%)</option>
+				
+				<option value="file2">github.com/jeff-french/ynab-mcp-server/cmd/version.go (0.0%)</option>
+				
+				<option value="file3">github.com/jeff-french/ynab-mcp-server/internal/config/config.go (0.0%)</option>
+				
+				<option value="file4">github.com/jeff-french/ynab-mcp-server/internal/server/http.go (0.0%)</option>
+				
+				<option value="file5">github.com/jeff-french/ynab-mcp-server/internal/server/server.go (0.0%)</option>
+				
+				<option value="file6">github.com/jeff-french/ynab-mcp-server/internal/server/stdio.go (0.0%)</option>
+				
+				<option value="file7">github.com/jeff-french/ynab-mcp-server/internal/tools/accounts.go (0.0%)</option>
+				
+				<option value="file8">github.com/jeff-french/ynab-mcp-server/internal/tools/aggregations.go (0.0%)</option>
+				
+				<option value="file9">github.com/jeff-french/ynab-mcp-server/internal/tools/aggregations_tools.go (0.0%)</option>
+				
+				<option value="file10">github.com/jeff-french/ynab-mcp-server/internal/tools/budgets.go (0.0%)</option>
+				
+				<option value="file11">github.com/jeff-french/ynab-mcp-server/internal/tools/categories.go (0.0%)</option>
+				
+				<option value="file12">github.com/jeff-french/ynab-mcp-server/internal/tools/payees.go (0.0%)</option>
+				
+				<option value="file13">github.com/jeff-french/ynab-mcp-server/internal/tools/registry.go (0.0%)</option>
+				
+				<option value="file14">github.com/jeff-french/ynab-mcp-server/internal/tools/transactions.go (0.0%)</option>
+				
+				<option value="file15">github.com/jeff-french/ynab-mcp-server/internal/ynab/accounts.go (0.0%)</option>
+				
+				<option value="file16">github.com/jeff-french/ynab-mcp-server/internal/ynab/budgets.go (0.0%)</option>
+				
+				<option value="file17">github.com/jeff-french/ynab-mcp-server/internal/ynab/categories.go (0.0%)</option>
+				
+				<option value="file18">github.com/jeff-french/ynab-mcp-server/internal/ynab/client.go (0.0%)</option>
+				
+				<option value="file19">github.com/jeff-french/ynab-mcp-server/internal/ynab/payees.go (0.0%)</option>
+				
+				<option value="file20">github.com/jeff-french/ynab-mcp-server/internal/ynab/transactions.go (0.0%)</option>
+				
+				<option value="file21">github.com/jeff-french/ynab-mcp-server/internal/ynab/types.go (0.0%)</option>
+				
+				<option value="file22">github.com/jeff-french/ynab-mcp-server/main.go (0.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">no coverage</span>
+				<span class="cov1">low coverage</span>
+				<span class="cov2">*</span>
+				<span class="cov3">*</span>
+				<span class="cov4">*</span>
+				<span class="cov5">*</span>
+				<span class="cov6">*</span>
+				<span class="cov7">*</span>
+				<span class="cov8">*</span>
+				<span class="cov9">*</span>
+				<span class="cov10">high coverage</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package cmd
+
+import (
+        "github.com/spf13/cobra"
+)
+
+// rootCmd represents the base command
+var rootCmd = &amp;cobra.Command{
+        Use:   "ynab-mcp-server",
+        Short: "YNAB MCP Server with stdio and HTTP transport support",
+        Long: `A Model Context Protocol (MCP) server for YNAB (You Need A Budget).
+
+Supports both stdio transport (for local use with Claude Desktop) and HTTP transport
+(for remote deployment). Provides MCP tools for accessing YNAB budgets, accounts,
+transactions, categories, and payees.`,
+}
+
+// Execute runs the root command
+func Execute() error <span class="cov0" title="0">{
+        return rootCmd.Execute()
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package cmd
+
+import (
+        "log"
+        "log/slog"
+        "os"
+
+        "github.com/jeff-french/ynab-mcp-server/internal/config"
+        "github.com/jeff-french/ynab-mcp-server/internal/server"
+        "github.com/jeff-french/ynab-mcp-server/internal/ynab"
+        "github.com/spf13/cobra"
+)
+
+var (
+        transport  string
+        port       int
+        configPath string
+)
+
+// serveCmd represents the serve command
+var serveCmd = &amp;cobra.Command{
+        Use:   "serve",
+        Short: "Start the MCP server",
+        Long: `Start the YNAB MCP server in either stdio or HTTP mode.
+
+stdio mode: Reads JSON-RPC from stdin, writes to stdout (for Claude Desktop)
+http mode: Runs HTTP server with /mcp/v1/messages endpoint (for remote access)`,
+        Run: func(cmd *cobra.Command, args []string) <span class="cov0" title="0">{
+                // Load configuration
+                cfg, err := config.Load(configPath)
+                if err != nil </span><span class="cov0" title="0">{
+                        log.Fatalf("Failed to load configuration: %v", err)
+                }</span>
+
+                // Override transport from flag if specified
+                <span class="cov0" title="0">if cmd.Flags().Changed("transport") </span><span class="cov0" title="0">{
+                        cfg.TransportMode = transport
+                }</span>
+                <span class="cov0" title="0">if cmd.Flags().Changed("port") </span><span class="cov0" title="0">{
+                        cfg.HTTPPort = port
+                }</span>
+
+                // Setup logging (write to stderr for stdio compatibility)
+                <span class="cov0" title="0">logLevel := slog.LevelInfo
+                if cfg.LogLevel == "debug" </span><span class="cov0" title="0">{
+                        logLevel = slog.LevelDebug
+                }</span>
+                <span class="cov0" title="0">logger := slog.New(slog.NewTextHandler(os.Stderr, &amp;slog.HandlerOptions{
+                        Level: logLevel,
+                }))
+                slog.SetDefault(logger)
+
+                // Create YNAB client
+                ynabClient := ynab.NewClient(cfg.YNABToken)
+
+                // Create MCP server
+                mcpServer, err := server.NewMCPServer(ynabClient)
+                if err != nil </span><span class="cov0" title="0">{
+                        log.Fatalf("Failed to create MCP server: %v", err)
+                }</span>
+
+                // Run appropriate transport
+                <span class="cov0" title="0">switch cfg.TransportMode </span>{
+                case "stdio":<span class="cov0" title="0">
+                        slog.Info("Starting YNAB MCP server in stdio mode")
+                        if err := server.ServeStdio(mcpServer); err != nil </span><span class="cov0" title="0">{
+                                log.Fatalf("stdio server error: %v", err)
+                        }</span>
+                case "http":<span class="cov0" title="0">
+                        slog.Info("Starting YNAB MCP server in HTTP mode", "port", cfg.HTTPPort)
+                        if err := server.ServeHTTP(mcpServer, cfg.HTTPPort, cfg.MCPAuthToken); err != nil </span><span class="cov0" title="0">{
+                                log.Fatalf("HTTP server error: %v", err)
+                        }</span>
+                default:<span class="cov0" title="0">
+                        log.Fatalf("Invalid transport mode: %s (must be 'stdio' or 'http')", cfg.TransportMode)</span>
+                }
+        },
+}
+
+func init() <span class="cov0" title="0">{
+        rootCmd.AddCommand(serveCmd)
+
+        serveCmd.Flags().StringVarP(&amp;transport, "transport", "t", "stdio", "Transport mode: stdio or http")
+        serveCmd.Flags().IntVarP(&amp;port, "port", "p", 8080, "HTTP port (http mode only)")
+        serveCmd.Flags().StringVarP(&amp;configPath, "config", "c", "", "Config file path")
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package cmd
+
+import (
+        "fmt"
+
+        "github.com/spf13/cobra"
+)
+
+// Version is set via ldflags during build
+var Version = "dev"
+
+// versionCmd represents the version command
+var versionCmd = &amp;cobra.Command{
+        Use:   "version",
+        Short: "Print version information",
+        Run: func(cmd *cobra.Command, args []string) <span class="cov0" title="0">{
+                fmt.Printf("ynab-mcp-server version %s\n", Version)
+        }</span>,
+}
+
+func init() <span class="cov0" title="0">{
+        rootCmd.AddCommand(versionCmd)
+}</span>
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package config
+
+import (
+        "fmt"
+        "os"
+        "path/filepath"
+
+        "github.com/spf13/viper"
+)
+
+// Config holds all configuration for the YNAB MCP server
+type Config struct {
+        YNABToken     string
+        TransportMode string
+        HTTPPort      int
+        HTTPHost      string
+        MCPAuthToken  string
+        LogLevel      string
+}
+
+// Load reads configuration from multiple sources with precedence:
+// CLI flags &gt; environment variables &gt; config file &gt; defaults
+func Load(configPath string) (*Config, error) <span class="cov0" title="0">{
+        v := viper.New()
+
+        // Set defaults
+        v.SetDefault("transport_mode", "stdio")
+        v.SetDefault("http_port", 8080)
+        v.SetDefault("http_host", "0.0.0.0")
+        v.SetDefault("log_level", "info")
+
+        // Bind environment variables
+        v.SetEnvPrefix("YNAB_MCP")
+        v.AutomaticEnv()
+
+        // Also check for YNAB_ACCESS_TOKEN without prefix (common convention)
+        if token := os.Getenv("YNAB_ACCESS_TOKEN"); token != "" </span><span class="cov0" title="0">{
+                v.Set("ynab_access_token", token)
+        }</span>
+        <span class="cov0" title="0">if token := os.Getenv("MCP_AUTH_TOKEN"); token != "" </span><span class="cov0" title="0">{
+                v.Set("mcp_auth_token", token)
+        }</span>
+
+        // Load config file if specified or use default location
+        <span class="cov0" title="0">if configPath != "" </span><span class="cov0" title="0">{
+                v.SetConfigFile(configPath)
+        }</span> else<span class="cov0" title="0"> {
+                // Try default config location: ~/.config/ynab-mcp/config.json
+                homeDir, err := os.UserHomeDir()
+                if err == nil </span><span class="cov0" title="0">{
+                        configDir := filepath.Join(homeDir, ".config", "ynab-mcp")
+                        configFile := filepath.Join(configDir, "config.json")
+
+                        // Create config directory if it doesn't exist
+                        if _, err := os.Stat(configDir); os.IsNotExist(err) </span><span class="cov0" title="0">{
+                                // Ignore errors - config file is optional, user can still use env vars
+                                _ = os.MkdirAll(configDir, 0755)
+                        }</span>
+
+                        // Use config file if it exists
+                        <span class="cov0" title="0">if _, err := os.Stat(configFile); err == nil </span><span class="cov0" title="0">{
+                                v.SetConfigFile(configFile)
+                        }</span>
+                }
+        }
+
+        // Read config file (ignore error if file doesn't exist)
+        <span class="cov0" title="0">if v.ConfigFileUsed() != "" || configPath != "" </span><span class="cov0" title="0">{
+                if err := v.ReadInConfig(); err != nil </span><span class="cov0" title="0">{
+                        // Only error if a config file was explicitly specified
+                        if configPath != "" </span><span class="cov0" title="0">{
+                                return nil, fmt.Errorf("failed to read config file: %w", err)
+                        }</span>
+                }
+        }
+
+        // Build config struct
+        <span class="cov0" title="0">cfg := &amp;Config{
+                YNABToken:     v.GetString("ynab_access_token"),
+                TransportMode: v.GetString("transport_mode"),
+                HTTPPort:      v.GetInt("http_port"),
+                HTTPHost:      v.GetString("http_host"),
+                MCPAuthToken:  v.GetString("mcp_auth_token"),
+                LogLevel:      v.GetString("log_level"),
+        }
+
+        // Validate required fields
+        if cfg.YNABToken == "" </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("YNAB access token is required (set YNAB_ACCESS_TOKEN env var or add to config file)")
+        }</span>
+
+        <span class="cov0" title="0">return cfg, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package server
+
+import (
+        "fmt"
+        "log/slog"
+        "net/http"
+
+        "github.com/mark3labs/mcp-go/server"
+)
+
+// ServeHTTP starts the MCP server in HTTP mode with optional authentication
+// This mode is used for remote deployment and cloud hosting
+func ServeHTTP(mcpServer *server.MCPServer, port int, authToken string) error <span class="cov0" title="0">{
+        // Create the streamable HTTP server (implements http.Handler)
+        httpServer := server.NewStreamableHTTPServer(mcpServer)
+
+        // Create custom mux with additional endpoints
+        mux := http.NewServeMux()
+
+        // Health check endpoint
+        mux.HandleFunc("/health", healthCheckHandler)
+
+        // Root handler for information
+        mux.HandleFunc("/", rootHandler)
+
+        // MCP endpoint - the streamable HTTP server implements http.Handler
+        var mcpHandler http.Handler = httpServer
+
+        // Apply auth middleware if token is provided
+        if authToken != "" </span><span class="cov0" title="0">{
+                slog.Info("HTTP authentication enabled")
+                mcpHandler = authMiddleware(mcpHandler, authToken)
+        }</span> else<span class="cov0" title="0"> {
+                slog.Warn("HTTP authentication disabled - server is open to all requests")
+        }</span>
+
+        // Mount at /mcp (the streamable HTTP server expects this path)
+        <span class="cov0" title="0">mux.Handle("/mcp/", http.StripPrefix("/mcp", mcpHandler))
+
+        addr := fmt.Sprintf(":%d", port)
+        slog.Info("Starting HTTP server", "address", addr, "auth_enabled", authToken != "")
+
+        return http.ListenAndServe(addr, mux)</span>
+}
+
+// healthCheckHandler handles health check requests
+func healthCheckHandler(w http.ResponseWriter, r *http.Request) <span class="cov0" title="0">{
+        w.Header().Set("Content-Type", "application/json")
+        w.WriteHeader(http.StatusOK)
+        _, _ = w.Write([]byte(`{"status":"healthy","service":"ynab-mcp-server"}`))
+}</span>
+
+// rootHandler provides basic server information
+func rootHandler(w http.ResponseWriter, r *http.Request) <span class="cov0" title="0">{
+        if r.URL.Path != "/" </span><span class="cov0" title="0">{
+                http.NotFound(w, r)
+                return
+        }</span>
+
+        <span class="cov0" title="0">w.Header().Set("Content-Type", "text/plain")
+        w.WriteHeader(http.StatusOK)
+        _, _ = w.Write([]byte(`YNAB MCP Server
+
+This is a Model Context Protocol (MCP) server for YNAB (You Need A Budget).
+
+Endpoints:
+  POST /mcp/v1/messages - MCP protocol endpoint
+  GET  /health          - Health check
+
+For more information, visit: https://github.com/jeff-french/ynab-mcp-server
+`))</span>
+}
+
+// authMiddleware validates Bearer token authentication
+func authMiddleware(next http.Handler, expectedToken string) http.Handler <span class="cov0" title="0">{
+        return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+                authHeader := r.Header.Get("Authorization")
+
+                // Check for Bearer token
+                expectedAuth := "Bearer " + expectedToken
+                if authHeader != expectedAuth </span><span class="cov0" title="0">{
+                        slog.Warn("Unauthorized request", "remote_addr", r.RemoteAddr, "path", r.URL.Path)
+                        w.Header().Set("Content-Type", "application/json")
+                        w.WriteHeader(http.StatusUnauthorized)
+                        _, _ = w.Write([]byte(`{"error":"Unauthorized","message":"Valid Bearer token required"}`))
+                        return
+                }</span>
+
+                <span class="cov0" title="0">next.ServeHTTP(w, r)</span>
+        })
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package server
+
+import (
+        "github.com/jeff-french/ynab-mcp-server/internal/tools"
+        "github.com/jeff-french/ynab-mcp-server/internal/ynab"
+        "github.com/mark3labs/mcp-go/server"
+)
+
+// NewMCPServer creates and configures the MCP server with all YNAB tools
+func NewMCPServer(ynabClient *ynab.Client) (*server.MCPServer, error) <span class="cov0" title="0">{
+        // Create MCP server
+        mcpServer := server.NewMCPServer(
+                "ynab-mcp-server",
+                "1.0.0",
+                server.WithToolCapabilities(true),
+        )
+
+        // Register all tools with their handlers
+        allTools := tools.GetAllTools(ynabClient)
+        for _, toolDef := range allTools </span><span class="cov0" title="0">{
+                mcpServer.AddTool(toolDef.Tool, toolDef.Handler)
+        }</span>
+
+        <span class="cov0" title="0">return mcpServer, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package server
+
+import (
+        "github.com/mark3labs/mcp-go/server"
+)
+
+// ServeStdio starts the MCP server in stdio mode (reads from stdin, writes to stdout)
+// This mode is used for local execution with Claude Desktop
+func ServeStdio(mcpServer *server.MCPServer) error <span class="cov0" title="0">{
+        return server.ServeStdio(mcpServer)
+}</span>
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package tools
+
+import (
+        "context"
+        "fmt"
+        "strings"
+
+        "github.com/jeff-french/ynab-mcp-server/internal/ynab"
+        "github.com/mark3labs/mcp-go/mcp"
+)
+
+// NewListAccountsTool creates the list_accounts tool
+func NewListAccountsTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "list_accounts",
+                Description: "List all accounts in a budget. Shows account name, type, balance, and status (open/closed, on/off budget).",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                        },
+                        Required: []string{"budget_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">accounts, err := client.ListAccounts(budgetID)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch accounts: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">if len(accounts) == 0 </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultText("No accounts found."), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString(fmt.Sprintf("Found %d account(s):\n\n", len(accounts)))
+
+                onBudgetTotal := int64(0)
+                offBudgetTotal := int64(0)
+
+                for i, account := range accounts </span><span class="cov0" title="0">{
+                        if account.Deleted </span><span class="cov0" title="0">{
+                                continue</span>
+                        }
+
+                        <span class="cov0" title="0">status := []string{}
+                        if account.Closed </span><span class="cov0" title="0">{
+                                status = append(status, "CLOSED")
+                        }</span>
+                        <span class="cov0" title="0">if !account.OnBudget </span><span class="cov0" title="0">{
+                                status = append(status, "OFF BUDGET")
+                                offBudgetTotal += account.Balance
+                        }</span> else<span class="cov0" title="0"> {
+                                onBudgetTotal += account.Balance
+                        }</span>
+
+                        <span class="cov0" title="0">statusStr := ""
+                        if len(status) &gt; 0 </span><span class="cov0" title="0">{
+                                statusStr = fmt.Sprintf(" [%s]", strings.Join(status, ", "))
+                        }</span>
+
+                        <span class="cov0" title="0">result.WriteString(fmt.Sprintf("%d. %s%s\n", i+1, account.Name, statusStr))
+                        result.WriteString(fmt.Sprintf("   ID: %s\n", account.ID))
+                        result.WriteString(fmt.Sprintf("   Type: %s\n", account.Type))
+                        result.WriteString(fmt.Sprintf("   Balance: %s\n", ynab.FormatCurrency(account.Balance)))
+                        result.WriteString(fmt.Sprintf("   Cleared: %s\n", ynab.FormatCurrency(account.ClearedBalance)))
+                        result.WriteString(fmt.Sprintf("   Uncleared: %s\n", ynab.FormatCurrency(account.UnclearedBalance)))
+                        if account.Note != "" </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("   Note: %s\n", account.Note))
+                        }</span>
+                        <span class="cov0" title="0">result.WriteString("\n")</span>
+                }
+
+                <span class="cov0" title="0">result.WriteString(fmt.Sprintf("On Budget Total: %s\n", ynab.FormatCurrency(onBudgetTotal)))
+                result.WriteString(fmt.Sprintf("Off Budget Total: %s\n", ynab.FormatCurrency(offBudgetTotal)))
+                result.WriteString(fmt.Sprintf("Net Worth: %s\n", ynab.FormatCurrency(onBudgetTotal+offBudgetTotal)))
+
+                return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+
+// NewGetAccountTool creates the get_account_details tool
+func NewGetAccountTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "get_account_details",
+                Description: "Get detailed information about a specific account including balance breakdown and account settings.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                                "account_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the account",
+                                },
+                        },
+                        Required: []string{"budget_id", "account_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">accountID, ok := args["account_id"].(string)
+                if !ok || accountID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("account_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">account, err := client.GetAccount(budgetID, accountID)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch account: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString(fmt.Sprintf("Account: %s\n", account.Name))
+                result.WriteString(fmt.Sprintf("ID: %s\n", account.ID))
+                result.WriteString(fmt.Sprintf("Type: %s\n\n", account.Type))
+
+                result.WriteString("Balances:\n")
+                result.WriteString(fmt.Sprintf("  Total: %s\n", ynab.FormatCurrency(account.Balance)))
+                result.WriteString(fmt.Sprintf("  Cleared: %s\n", ynab.FormatCurrency(account.ClearedBalance)))
+                result.WriteString(fmt.Sprintf("  Uncleared: %s\n\n", ynab.FormatCurrency(account.UnclearedBalance)))
+
+                result.WriteString("Status:\n")
+                result.WriteString(fmt.Sprintf("  On Budget: %t\n", account.OnBudget))
+                result.WriteString(fmt.Sprintf("  Closed: %t\n", account.Closed))
+                result.WriteString(fmt.Sprintf("  Direct Import Linked: %t\n", account.DirectImportLinked))
+                if account.DirectImportInError </span><span class="cov0" title="0">{
+                        result.WriteString("  ⚠️  Direct Import Error: true\n")
+                }</span>
+
+                <span class="cov0" title="0">if account.Note != "" </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("\nNote: %s\n", account.Note))
+                }</span>
+
+                <span class="cov0" title="0">return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package tools
+
+import (
+        "fmt"
+        "time"
+
+        "github.com/jeff-french/ynab-mcp-server/internal/ynab"
+)
+
+// Helper functions for aggregation tools
+
+// isTransfer checks if a transaction is a transfer (should be excluded from spending analysis)
+func isTransfer(tx ynab.Transaction) bool <span class="cov0" title="0">{
+        return tx.TransferAccountID != ""
+}</span>
+
+// parseDate validates and parses a date string in YYYY-MM-DD format
+func parseDate(dateStr string) (time.Time, error) <span class="cov0" title="0">{
+        if dateStr == "" </span><span class="cov0" title="0">{
+                return time.Time{}, fmt.Errorf("date string is empty")
+        }</span>
+        <span class="cov0" title="0">t, err := time.Parse("2006-01-02", dateStr)
+        if err != nil </span><span class="cov0" title="0">{
+                return time.Time{}, fmt.Errorf("invalid date format, expected YYYY-MM-DD: %w", err)
+        }</span>
+        <span class="cov0" title="0">return t, nil</span>
+}
+
+// validateDateRange checks that dates are valid and range is reasonable
+func validateDateRange(sinceDate, untilDate string) error <span class="cov0" title="0">{
+        since, err := parseDate(sinceDate)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("since_date: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">until, err := parseDate(untilDate)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("until_date: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">if until.Before(since) </span><span class="cov0" title="0">{
+                return fmt.Errorf("until_date must be after since_date")
+        }</span>
+
+        // Check if range is too large (&gt; 2 years)
+        <span class="cov0" title="0">duration := until.Sub(since)
+        if duration &gt; 730*24*time.Hour </span><span class="cov0" title="0">{ // ~2 years
+                return fmt.Errorf("date range too large (max 2 years), consider using a smaller range for better performance")
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+
+// getMonthString returns YYYY-MM format for a time
+func getMonthString(t time.Time) string <span class="cov0" title="0">{
+        return t.Format("2006-01")
+}</span>
+
+// parseMonth validates and parses a month string in YYYY-MM format
+func parseMonth(monthStr string) (time.Time, error) <span class="cov0" title="0">{
+        if monthStr == "" </span><span class="cov0" title="0">{
+                return time.Time{}, fmt.Errorf("month string is empty")
+        }</span>
+        <span class="cov0" title="0">t, err := time.Parse("2006-01", monthStr)
+        if err != nil </span><span class="cov0" title="0">{
+                return time.Time{}, fmt.Errorf("invalid month format, expected YYYY-MM: %w", err)
+        }</span>
+        <span class="cov0" title="0">return t, nil</span>
+}
+
+// getCurrentMonth returns current month in YYYY-MM format
+func getCurrentMonth() string <span class="cov0" title="0">{
+        return time.Now().Format("2006-01")
+}</span>
+
+// getLastNMonths returns a list of month strings for the last N months including current
+func getLastNMonths(n int) []string <span class="cov0" title="0">{
+        if n &lt; 1 </span><span class="cov0" title="0">{
+                n = 1
+        }</span>
+        <span class="cov0" title="0">if n &gt; 24 </span><span class="cov0" title="0">{
+                n = 24
+        }</span>
+
+        <span class="cov0" title="0">months := make([]string, n)
+        now := time.Now()
+
+        for i := n - 1; i &gt;= 0; i-- </span><span class="cov0" title="0">{
+                monthDate := now.AddDate(0, -i, 0)
+                months[n-1-i] = getMonthString(monthDate)
+        }</span>
+
+        <span class="cov0" title="0">return months</span>
+}
+
+// categorySummary holds aggregated data for a category
+type categorySummary struct {
+        CategoryID        string  `json:"category_id"`
+        CategoryName      string  `json:"category_name"`
+        CategoryGroupName string  `json:"category_group_name"`
+        TotalOutflow      float64 `json:"total_outflow"`
+        TotalInflow       float64 `json:"total_inflow"`
+        Net               float64 `json:"net"`
+        TransactionCount  int     `json:"transaction_count"`
+}
+
+// monthSummary holds aggregated data for a month
+type monthSummary struct {
+        Month            string  `json:"month"`
+        TotalOutflow     float64 `json:"total_outflow"`
+        TotalInflow      float64 `json:"total_inflow"`
+        Net              float64 `json:"net"`
+        TransactionCount int     `json:"transaction_count"`
+}
+
+// payeeSummary holds aggregated data for a payee
+type payeeSummary struct {
+        PayeeID          string  `json:"payee_id"`
+        PayeeName        string  `json:"payee_name"`
+        TotalOutflow     float64 `json:"total_outflow"`
+        TotalInflow      float64 `json:"total_inflow"`
+        Net              float64 `json:"net"`
+        TransactionCount int     `json:"transaction_count"`
+}
+
+// accountBalance holds account balance information
+type accountBalance struct {
+        AccountID        string  `json:"account_id"`
+        AccountName      string  `json:"account_name"`
+        AccountType      string  `json:"account_type"`
+        OnBudget         bool    `json:"on_budget"`
+        Closed           bool    `json:"closed"`
+        ClearedBalance   float64 `json:"cleared_balance"`
+        UnclearedBalance float64 `json:"uncleared_balance"`
+        CurrentBalance   float64 `json:"current_balance"`
+}
+
+// aggregateByCategory groups transactions by category and sums amounts
+func aggregateByCategory(transactions []ynab.Transaction) map[string]*categorySummary <span class="cov0" title="0">{
+        summaries := make(map[string]*categorySummary)
+
+        for _, tx := range transactions </span><span class="cov0" title="0">{
+                // Skip transfers
+                if isTransfer(tx) </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                // Skip deleted transactions
+                <span class="cov0" title="0">if tx.Deleted </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                // Get or create category summary
+                <span class="cov0" title="0">categoryID := tx.CategoryID
+                if categoryID == "" </span><span class="cov0" title="0">{
+                        categoryID = "uncategorized"
+                }</span>
+
+                <span class="cov0" title="0">summary, exists := summaries[categoryID]
+                if !exists </span><span class="cov0" title="0">{
+                        summary = &amp;categorySummary{
+                                CategoryID:        categoryID,
+                                CategoryName:      tx.CategoryName,
+                                CategoryGroupName: "", // Will be filled in if we have category data
+                        }
+                        if categoryID == "uncategorized" </span><span class="cov0" title="0">{
+                                summary.CategoryName = "Uncategorized"
+                        }</span>
+                        <span class="cov0" title="0">summaries[categoryID] = summary</span>
+                }
+
+                // Aggregate amounts
+                <span class="cov0" title="0">amount := ynab.MilliunitsToFloat(tx.Amount)
+                if amount &lt; 0 </span><span class="cov0" title="0">{
+                        summary.TotalOutflow += -amount // Store as positive
+                }</span> else<span class="cov0" title="0"> {
+                        summary.TotalInflow += amount
+                }</span>
+                <span class="cov0" title="0">summary.Net += amount
+                summary.TransactionCount++</span>
+        }
+
+        <span class="cov0" title="0">return summaries</span>
+}
+
+// aggregateByMonth groups transactions by month and sums amounts
+func aggregateByMonth(transactions []ynab.Transaction, months []string) map[string]*monthSummary <span class="cov0" title="0">{
+        summaries := make(map[string]*monthSummary)
+
+        // Initialize all months with zero values
+        for _, month := range months </span><span class="cov0" title="0">{
+                summaries[month] = &amp;monthSummary{
+                        Month: month,
+                }
+        }</span>
+
+        // Aggregate transactions
+        <span class="cov0" title="0">for _, tx := range transactions </span><span class="cov0" title="0">{
+                // Skip transfers
+                if isTransfer(tx) </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                // Skip deleted transactions
+                <span class="cov0" title="0">if tx.Deleted </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                // Get month from transaction date
+                <span class="cov0" title="0">txDate, err := parseDate(tx.Date)
+                if err != nil </span><span class="cov0" title="0">{
+                        continue</span> // Skip invalid dates
+                }
+                <span class="cov0" title="0">month := getMonthString(txDate)
+
+                // Only include if in our month list
+                summary, exists := summaries[month]
+                if !exists </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                // Aggregate amounts
+                <span class="cov0" title="0">amount := ynab.MilliunitsToFloat(tx.Amount)
+                if amount &lt; 0 </span><span class="cov0" title="0">{
+                        summary.TotalOutflow += -amount // Store as positive
+                }</span> else<span class="cov0" title="0"> {
+                        summary.TotalInflow += amount
+                }</span>
+                <span class="cov0" title="0">summary.Net += amount
+                summary.TransactionCount++</span>
+        }
+
+        <span class="cov0" title="0">return summaries</span>
+}
+
+// aggregateByPayee groups transactions by payee and sums amounts
+func aggregateByPayee(transactions []ynab.Transaction) map[string]*payeeSummary <span class="cov0" title="0">{
+        summaries := make(map[string]*payeeSummary)
+
+        for _, tx := range transactions </span><span class="cov0" title="0">{
+                // Skip transfers
+                if isTransfer(tx) </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                // Skip deleted transactions
+                <span class="cov0" title="0">if tx.Deleted </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                // Get or create payee summary
+                <span class="cov0" title="0">payeeID := tx.PayeeID
+                if payeeID == "" </span><span class="cov0" title="0">{
+                        payeeID = "no-payee"
+                }</span>
+
+                <span class="cov0" title="0">summary, exists := summaries[payeeID]
+                if !exists </span><span class="cov0" title="0">{
+                        summary = &amp;payeeSummary{
+                                PayeeID:   payeeID,
+                                PayeeName: tx.PayeeName,
+                        }
+                        if payeeID == "no-payee" </span><span class="cov0" title="0">{
+                                summary.PayeeName = "No Payee"
+                        }</span>
+                        <span class="cov0" title="0">summaries[payeeID] = summary</span>
+                }
+
+                // Aggregate amounts
+                <span class="cov0" title="0">amount := ynab.MilliunitsToFloat(tx.Amount)
+                if amount &lt; 0 </span><span class="cov0" title="0">{
+                        summary.TotalOutflow += -amount // Store as positive
+                }</span> else<span class="cov0" title="0"> {
+                        summary.TotalInflow += amount
+                }</span>
+                <span class="cov0" title="0">summary.Net += amount
+                summary.TransactionCount++</span>
+        }
+
+        <span class="cov0" title="0">return summaries</span>
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package tools
+
+import (
+        "context"
+        "encoding/json"
+        "fmt"
+        "sort"
+
+        "github.com/jeff-french/ynab-mcp-server/internal/ynab"
+        "github.com/mark3labs/mcp-go/mcp"
+)
+
+// NewGetSpendingByCategoryTool creates the get_spending_by_category aggregation tool
+func NewGetSpendingByCategoryTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "get_spending_by_category",
+                Description: "Get total spending per category for a date range. Returns aggregated data without fetching every transaction individually. Useful for understanding spending patterns across categories.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                                "since_date": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Start date in YYYY-MM-DD format (e.g., 2024-01-01)",
+                                },
+                                "until_date": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "End date in YYYY-MM-DD format (e.g., 2024-12-31)",
+                                },
+                                "account_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Optional: filter to specific account ID",
+                                },
+                        },
+                        Required: []string{"budget_id", "since_date", "until_date"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">sinceDate, ok := args["since_date"].(string)
+                if !ok || sinceDate == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("since_date is required (YYYY-MM-DD format)"), nil
+                }</span>
+
+                <span class="cov0" title="0">untilDate, ok := args["until_date"].(string)
+                if !ok || untilDate == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("until_date is required (YYYY-MM-DD format)"), nil
+                }</span>
+
+                // Validate date range
+                <span class="cov0" title="0">if err := validateDateRange(sinceDate, untilDate); err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(err.Error()), nil
+                }</span>
+
+                // Fetch transactions for date range
+                <span class="cov0" title="0">query := &amp;ynab.TransactionQuery{
+                        SinceDate: sinceDate,
+                }
+
+                var transactions []ynab.Transaction
+                var err error
+
+                if accountID, ok := args["account_id"].(string); ok &amp;&amp; accountID != "" </span><span class="cov0" title="0">{
+                        transactions, err = client.ListAccountTransactions(budgetID, accountID, query)
+                }</span> else<span class="cov0" title="0"> {
+                        transactions, err = client.ListTransactions(budgetID, query)
+                }</span>
+
+                <span class="cov0" title="0">if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch transactions: %v", err)), nil
+                }</span>
+
+                // Filter transactions to until_date (YNAB's since_date doesn't have until)
+                <span class="cov0" title="0">untilTime, _ := parseDate(untilDate)
+                filteredTxs := make([]ynab.Transaction, 0)
+                for _, tx := range transactions </span><span class="cov0" title="0">{
+                        txDate, err := parseDate(tx.Date)
+                        if err != nil </span><span class="cov0" title="0">{
+                                continue</span>
+                        }
+                        <span class="cov0" title="0">if !txDate.After(untilTime) </span><span class="cov0" title="0">{
+                                filteredTxs = append(filteredTxs, tx)
+                        }</span>
+                }
+
+                // Aggregate by category
+                <span class="cov0" title="0">summaries := aggregateByCategory(filteredTxs)
+
+                // Convert to sorted slice
+                categories := make([]categorySummary, 0, len(summaries))
+                totalOutflow := 0.0
+                totalInflow := 0.0
+
+                for _, summary := range summaries </span><span class="cov0" title="0">{
+                        categories = append(categories, *summary)
+                        totalOutflow += summary.TotalOutflow
+                        totalInflow += summary.TotalInflow
+                }</span>
+
+                // Sort by total outflow descending
+                <span class="cov0" title="0">sort.Slice(categories, func(i, j int) bool </span><span class="cov0" title="0">{
+                        return categories[i].TotalOutflow &gt; categories[j].TotalOutflow
+                }</span>)
+
+                // Build result
+                <span class="cov0" title="0">result := map[string]interface{}{
+                        "categories":    categories,
+                        "total_outflow": totalOutflow,
+                        "total_inflow":  totalInflow,
+                        "date_range": map[string]string{
+                                "since": sinceDate,
+                                "until": untilDate,
+                        },
+                }
+
+                jsonResult, err := json.MarshalIndent(result, "", "  ")
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to format result: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">return mcp.NewToolResultText(string(jsonResult)), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+
+// NewGetSpendingByMonthTool creates the get_spending_by_month aggregation tool
+func NewGetSpendingByMonthTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "get_spending_by_month",
+                Description: "Get monthly spending totals for trend analysis. Returns aggregated spending data for the last N months.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                                "category_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Optional: specific category ID to analyze. Omit for all categories.",
+                                },
+                                "num_months": map[string]interface{}{
+                                        "type":        "number",
+                                        "description": "Number of months including current (1-24)",
+                                        "minimum":     1,
+                                        "maximum":     24,
+                                },
+                                "account_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Optional: filter to specific account ID",
+                                },
+                        },
+                        Required: []string{"budget_id", "num_months"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">numMonthsFloat, ok := args["num_months"].(float64)
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("num_months is required (1-24)"), nil
+                }</span>
+                <span class="cov0" title="0">numMonths := int(numMonthsFloat)
+                if numMonths &lt; 1 || numMonths &gt; 24 </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("num_months must be between 1 and 24"), nil
+                }</span>
+
+                // Get category name if filtering by category
+                <span class="cov0" title="0">categoryName := "All Categories"
+                categoryID := ""
+                if catID, ok := args["category_id"].(string); ok &amp;&amp; catID != "" </span><span class="cov0" title="0">{
+                        categoryID = catID
+                        // Fetch category details to get name
+                        category, err := client.GetCategory(budgetID, categoryID)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch category: %v", err)), nil
+                        }</span>
+                        <span class="cov0" title="0">categoryName = category.Name</span>
+                }
+
+                // Calculate date range for last N months
+                <span class="cov0" title="0">months := getLastNMonths(numMonths)
+                if len(months) == 0 </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Failed to calculate month range"), nil
+                }</span>
+
+                // Get since date from oldest month
+                <span class="cov0" title="0">sinceDate := months[0] + "-01"
+
+                // Fetch transactions
+                query := &amp;ynab.TransactionQuery{
+                        SinceDate: sinceDate,
+                }
+
+                var transactions []ynab.Transaction
+                var err error
+
+                if accountID, ok := args["account_id"].(string); ok &amp;&amp; accountID != "" </span><span class="cov0" title="0">{
+                        transactions, err = client.ListAccountTransactions(budgetID, accountID, query)
+                }</span> else<span class="cov0" title="0"> {
+                        transactions, err = client.ListTransactions(budgetID, query)
+                }</span>
+
+                <span class="cov0" title="0">if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch transactions: %v", err)), nil
+                }</span>
+
+                // Filter by category if specified
+                <span class="cov0" title="0">if categoryID != "" </span><span class="cov0" title="0">{
+                        filtered := make([]ynab.Transaction, 0)
+                        for _, tx := range transactions </span><span class="cov0" title="0">{
+                                if tx.CategoryID == categoryID </span><span class="cov0" title="0">{
+                                        filtered = append(filtered, tx)
+                                }</span>
+                        }
+                        <span class="cov0" title="0">transactions = filtered</span>
+                }
+
+                // Aggregate by month
+                <span class="cov0" title="0">summaries := aggregateByMonth(transactions, months)
+
+                // Convert to sorted slice (chronological order)
+                monthData := make([]monthSummary, len(months))
+                totalOutflow := 0.0
+                totalInflow := 0.0
+
+                for i, month := range months </span><span class="cov0" title="0">{
+                        summary := summaries[month]
+                        monthData[i] = *summary
+                        totalOutflow += summary.TotalOutflow
+                        totalInflow += summary.TotalInflow
+                }</span>
+
+                // Calculate averages
+                <span class="cov0" title="0">avgOutflow := 0.0
+                avgInflow := 0.0
+                if numMonths &gt; 0 </span><span class="cov0" title="0">{
+                        avgOutflow = totalOutflow / float64(numMonths)
+                        avgInflow = totalInflow / float64(numMonths)
+                }</span>
+
+                // Build result
+                <span class="cov0" title="0">result := map[string]interface{}{
+                        "months":                  monthData,
+                        "category_name":           categoryName,
+                        "average_monthly_outflow": avgOutflow,
+                        "average_monthly_inflow":  avgInflow,
+                }
+
+                jsonResult, err := json.MarshalIndent(result, "", "  ")
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to format result: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">return mcp.NewToolResultText(string(jsonResult)), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+
+// NewGetBudgetSummaryTool creates the get_budget_summary aggregation tool
+func NewGetBudgetSummaryTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "get_budget_summary",
+                Description: "Get current budget state showing budgeted vs actual for all categories. Returns structured budget data for a specific month.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                                "month": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Optional: month in YYYY-MM format. Defaults to current month.",
+                                },
+                        },
+                        Required: []string{"budget_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                // Get month (default to current)
+                <span class="cov0" title="0">month := getCurrentMonth()
+                if monthArg, ok := args["month"].(string); ok &amp;&amp; monthArg != "" </span><span class="cov0" title="0">{
+                        if _, err := parseMonth(monthArg); err != nil </span><span class="cov0" title="0">{
+                                return mcp.NewToolResultError(fmt.Sprintf("Invalid month format: %v", err)), nil
+                        }</span>
+                        <span class="cov0" title="0">month = monthArg</span>
+                }
+
+                // Fetch budget with category data
+                <span class="cov0" title="0">budget, err := client.GetBudget(budgetID)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch budget: %v", err)), nil
+                }</span>
+
+                // Build category groups structure
+                <span class="cov0" title="0">categoryGroups := make([]map[string]interface{}, 0)
+
+                for _, group := range budget.CategoryGroups </span><span class="cov0" title="0">{
+                        if group.Deleted || group.Hidden </span><span class="cov0" title="0">{
+                                continue</span>
+                        }
+
+                        <span class="cov0" title="0">categories := make([]map[string]interface{}, 0)
+                        for _, cat := range group.Categories </span><span class="cov0" title="0">{
+                                if cat.Deleted || cat.Hidden </span><span class="cov0" title="0">{
+                                        continue</span>
+                                }
+
+                                <span class="cov0" title="0">category := map[string]interface{}{
+                                        "category_id":   cat.ID,
+                                        "category_name": cat.Name,
+                                        "budgeted":      ynab.MilliunitsToFloat(cat.Budgeted),
+                                        "activity":      ynab.MilliunitsToFloat(cat.Activity),
+                                        "available":     ynab.MilliunitsToFloat(cat.Balance),
+                                        "goal_target":   nil,
+                                        "goal_type":     nil,
+                                }
+
+                                if cat.GoalTarget &gt; 0 </span><span class="cov0" title="0">{
+                                        category["goal_target"] = ynab.MilliunitsToFloat(cat.GoalTarget)
+                                }</span>
+                                <span class="cov0" title="0">if cat.GoalType != "" </span><span class="cov0" title="0">{
+                                        category["goal_type"] = cat.GoalType
+                                }</span>
+
+                                <span class="cov0" title="0">categories = append(categories, category)</span>
+                        }
+
+                        <span class="cov0" title="0">if len(categories) &gt; 0 </span><span class="cov0" title="0">{
+                                categoryGroup := map[string]interface{}{
+                                        "category_group_id":   group.ID,
+                                        "category_group_name": group.Name,
+                                        "categories":          categories,
+                                }
+                                categoryGroups = append(categoryGroups, categoryGroup)
+                        }</span>
+                }
+
+                // Build result
+                <span class="cov0" title="0">result := map[string]interface{}{
+                        "month":           month,
+                        "category_groups": categoryGroups,
+                        "age_of_money":    nil, // YNAB doesn't provide this in budget endpoint
+                        "to_be_budgeted":  nil, // Would need month-specific endpoint
+                }
+
+                jsonResult, err := json.MarshalIndent(result, "", "  ")
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to format result: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">return mcp.NewToolResultText(string(jsonResult)), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+
+// NewGetPayeeSummaryTool creates the get_payee_summary aggregation tool
+func NewGetPayeeSummaryTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "get_payee_summary",
+                Description: "See where money is going by payee. Returns top payees by spending for a date range.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                                "since_date": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Start date in YYYY-MM-DD format",
+                                },
+                                "until_date": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "End date in YYYY-MM-DD format",
+                                },
+                                "top_n": map[string]interface{}{
+                                        "type":        "number",
+                                        "description": "Optional: return top N payees (default 20)",
+                                        "default":     20,
+                                },
+                        },
+                        Required: []string{"budget_id", "since_date", "until_date"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">sinceDate, ok := args["since_date"].(string)
+                if !ok || sinceDate == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("since_date is required (YYYY-MM-DD format)"), nil
+                }</span>
+
+                <span class="cov0" title="0">untilDate, ok := args["until_date"].(string)
+                if !ok || untilDate == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("until_date is required (YYYY-MM-DD format)"), nil
+                }</span>
+
+                // Validate date range
+                <span class="cov0" title="0">if err := validateDateRange(sinceDate, untilDate); err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(err.Error()), nil
+                }</span>
+
+                <span class="cov0" title="0">topN := 20
+                if topNFloat, ok := args["top_n"].(float64); ok </span><span class="cov0" title="0">{
+                        topN = int(topNFloat)
+                        if topN &lt; 1 </span><span class="cov0" title="0">{
+                                topN = 20
+                        }</span>
+                }
+
+                // Fetch transactions
+                <span class="cov0" title="0">query := &amp;ynab.TransactionQuery{
+                        SinceDate: sinceDate,
+                }
+
+                transactions, err := client.ListTransactions(budgetID, query)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch transactions: %v", err)), nil
+                }</span>
+
+                // Filter to until_date
+                <span class="cov0" title="0">untilTime, _ := parseDate(untilDate)
+                filteredTxs := make([]ynab.Transaction, 0)
+                for _, tx := range transactions </span><span class="cov0" title="0">{
+                        txDate, err := parseDate(tx.Date)
+                        if err != nil </span><span class="cov0" title="0">{
+                                continue</span>
+                        }
+                        <span class="cov0" title="0">if !txDate.After(untilTime) </span><span class="cov0" title="0">{
+                                filteredTxs = append(filteredTxs, tx)
+                        }</span>
+                }
+
+                // Aggregate by payee
+                <span class="cov0" title="0">summaries := aggregateByPayee(filteredTxs)
+
+                // Convert to sorted slice
+                payees := make([]payeeSummary, 0, len(summaries))
+                for _, summary := range summaries </span><span class="cov0" title="0">{
+                        payees = append(payees, *summary)
+                }</span>
+
+                // Sort by total outflow descending
+                <span class="cov0" title="0">sort.Slice(payees, func(i, j int) bool </span><span class="cov0" title="0">{
+                        return payees[i].TotalOutflow &gt; payees[j].TotalOutflow
+                }</span>)
+
+                // Limit to top N
+                <span class="cov0" title="0">if len(payees) &gt; topN </span><span class="cov0" title="0">{
+                        payees = payees[:topN]
+                }</span>
+
+                // Build result
+                <span class="cov0" title="0">result := map[string]interface{}{
+                        "payees": payees,
+                        "date_range": map[string]string{
+                                "since": sinceDate,
+                                "until": untilDate,
+                        },
+                }
+
+                jsonResult, err := json.MarshalIndent(result, "", "  ")
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to format result: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">return mcp.NewToolResultText(string(jsonResult)), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+
+// NewGetAccountBalancesTool creates the get_account_balances aggregation tool
+func NewGetAccountBalancesTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "get_account_balances",
+                Description: "Quick snapshot of all account balances. Returns current balances for all accounts with totals.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                        },
+                        Required: []string{"budget_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                // Fetch accounts
+                <span class="cov0" title="0">accounts, err := client.ListAccounts(budgetID)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch accounts: %v", err)), nil
+                }</span>
+
+                // Build account balances
+                <span class="cov0" title="0">accountBalances := make([]accountBalance, 0)
+                totalOnBudget := 0.0
+                totalOffBudget := 0.0
+
+                for _, account := range accounts </span><span class="cov0" title="0">{
+                        if account.Deleted </span><span class="cov0" title="0">{
+                                continue</span>
+                        }
+
+                        <span class="cov0" title="0">balance := accountBalance{
+                                AccountID:        account.ID,
+                                AccountName:      account.Name,
+                                AccountType:      account.Type,
+                                OnBudget:         account.OnBudget,
+                                Closed:           account.Closed,
+                                ClearedBalance:   ynab.MilliunitsToFloat(account.ClearedBalance),
+                                UnclearedBalance: ynab.MilliunitsToFloat(account.UnclearedBalance),
+                                CurrentBalance:   ynab.MilliunitsToFloat(account.Balance),
+                        }
+
+                        accountBalances = append(accountBalances, balance)
+
+                        // Accumulate totals (exclude closed accounts)
+                        if !account.Closed </span><span class="cov0" title="0">{
+                                if account.OnBudget </span><span class="cov0" title="0">{
+                                        totalOnBudget += balance.CurrentBalance
+                                }</span> else<span class="cov0" title="0"> {
+                                        totalOffBudget += balance.CurrentBalance
+                                }</span>
+                        }
+                }
+
+                // Build result
+                <span class="cov0" title="0">result := map[string]interface{}{
+                        "accounts":          accountBalances,
+                        "total_on_budget":   totalOnBudget,
+                        "total_off_budget":  totalOffBudget,
+                        "net_worth":         totalOnBudget + totalOffBudget,
+                }
+
+                jsonResult, err := json.MarshalIndent(result, "", "  ")
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to format result: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">return mcp.NewToolResultText(string(jsonResult)), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package tools
+
+import (
+        "context"
+        "fmt"
+        "strings"
+
+        "github.com/jeff-french/ynab-mcp-server/internal/ynab"
+        "github.com/mark3labs/mcp-go/mcp"
+)
+
+// NewListBudgetsTool creates the list_budgets tool
+func NewListBudgetsTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "list_budgets",
+                Description: "List all YNAB budgets accessible with the current token. Returns budget ID, name, and last modified date for each budget.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type:       "object",
+                        Properties: map[string]interface{}{},
+                        Required:   []string{},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                budgets, err := client.ListBudgets()
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch budgets: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">if len(budgets) == 0 </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultText("No budgets found."), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString(fmt.Sprintf("Found %d budget(s):\n\n", len(budgets)))
+
+                for i, budget := range budgets </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("%d. %s\n", i+1, budget.Name))
+                        result.WriteString(fmt.Sprintf("   ID: %s\n", budget.ID))
+                        result.WriteString(fmt.Sprintf("   Last Modified: %s\n", budget.LastModifiedOn))
+                        if budget.CurrencyFormat != nil </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("   Currency: %s\n", budget.CurrencyFormat.ISOCode))
+                        }</span>
+                        <span class="cov0" title="0">result.WriteString("\n")</span>
+                }
+
+                <span class="cov0" title="0">return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+
+// NewGetBudgetTool creates the get_budget_details tool
+func NewGetBudgetTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "get_budget_details",
+                Description: "Get detailed information about a specific budget including accounts, categories, and payees. Requires a budget ID from list_budgets.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget to retrieve",
+                                },
+                        },
+                        Required: []string{"budget_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">budget, err := client.GetBudget(budgetID)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch budget: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString(fmt.Sprintf("Budget: %s\n", budget.Name))
+                result.WriteString(fmt.Sprintf("ID: %s\n", budget.ID))
+                result.WriteString(fmt.Sprintf("Last Modified: %s\n", budget.LastModifiedOn))
+                result.WriteString(fmt.Sprintf("First Month: %s\n", budget.FirstMonth))
+                result.WriteString(fmt.Sprintf("Last Month: %s\n\n", budget.LastMonth))
+
+                if budget.CurrencyFormat != nil </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("Currency: %s (%s)\n\n",
+                                budget.CurrencyFormat.ISOCode,
+                                budget.CurrencyFormat.CurrencySymbol))
+                }</span>
+
+                // Accounts summary
+                <span class="cov0" title="0">if len(budget.Accounts) &gt; 0 </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("Accounts (%d):\n", len(budget.Accounts)))
+                        onBudgetBalance := int64(0)
+                        offBudgetBalance := int64(0)
+
+                        for _, account := range budget.Accounts </span><span class="cov0" title="0">{
+                                if account.Deleted || account.Closed </span><span class="cov0" title="0">{
+                                        continue</span>
+                                }
+                                <span class="cov0" title="0">if account.OnBudget </span><span class="cov0" title="0">{
+                                        onBudgetBalance += account.Balance
+                                }</span> else<span class="cov0" title="0"> {
+                                        offBudgetBalance += account.Balance
+                                }</span>
+                                <span class="cov0" title="0">status := ""
+                                if account.Closed </span><span class="cov0" title="0">{
+                                        status = " [CLOSED]"
+                                }</span>
+                                <span class="cov0" title="0">result.WriteString(fmt.Sprintf("  - %s: %s%s\n",
+                                        account.Name,
+                                        ynab.FormatCurrency(account.Balance),
+                                        status))</span>
+                        }
+                        <span class="cov0" title="0">result.WriteString(fmt.Sprintf("\nOn Budget Total: %s\n", ynab.FormatCurrency(onBudgetBalance)))
+                        result.WriteString(fmt.Sprintf("Off Budget Total: %s\n\n", ynab.FormatCurrency(offBudgetBalance)))</span>
+                }
+
+                // Category groups summary
+                <span class="cov0" title="0">if len(budget.CategoryGroups) &gt; 0 </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("Category Groups (%d):\n", len(budget.CategoryGroups)))
+                        for _, group := range budget.CategoryGroups </span><span class="cov0" title="0">{
+                                if group.Deleted || group.Hidden </span><span class="cov0" title="0">{
+                                        continue</span>
+                                }
+                                <span class="cov0" title="0">result.WriteString(fmt.Sprintf("  - %s (%d categories)\n", group.Name, len(group.Categories)))</span>
+                        }
+                        <span class="cov0" title="0">result.WriteString("\n")</span>
+                }
+
+                // Payees count
+                <span class="cov0" title="0">if len(budget.Payees) &gt; 0 </span><span class="cov0" title="0">{
+                        activePayees := 0
+                        for _, payee := range budget.Payees </span><span class="cov0" title="0">{
+                                if !payee.Deleted </span><span class="cov0" title="0">{
+                                        activePayees++
+                                }</span>
+                        }
+                        <span class="cov0" title="0">result.WriteString(fmt.Sprintf("Total Payees: %d\n", activePayees))</span>
+                }
+
+                <span class="cov0" title="0">return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package tools
+
+import (
+        "context"
+        "fmt"
+        "strings"
+
+        "github.com/jeff-french/ynab-mcp-server/internal/ynab"
+        "github.com/mark3labs/mcp-go/mcp"
+)
+
+// NewListCategoriesTool creates the list_categories tool
+func NewListCategoriesTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "list_categories",
+                Description: "List all category groups and their categories in a budget. Shows budgeted amounts, activity, and balances for each category.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                        },
+                        Required: []string{"budget_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">categoryGroups, err := client.ListCategories(budgetID)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch categories: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">if len(categoryGroups) == 0 </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultText("No category groups found."), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString("Category Groups and Categories:\n\n")
+
+                totalBudgeted := int64(0)
+                totalActivity := int64(0)
+                totalBalance := int64(0)
+
+                for _, group := range categoryGroups </span><span class="cov0" title="0">{
+                        if group.Deleted || group.Hidden </span><span class="cov0" title="0">{
+                                continue</span>
+                        }
+
+                        <span class="cov0" title="0">result.WriteString(fmt.Sprintf("📁 %s\n", group.Name))
+
+                        activeCategories := 0
+                        for _, category := range group.Categories </span><span class="cov0" title="0">{
+                                if category.Deleted || category.Hidden </span><span class="cov0" title="0">{
+                                        continue</span>
+                                }
+                                <span class="cov0" title="0">activeCategories++
+
+                                totalBudgeted += category.Budgeted
+                                totalActivity += category.Activity
+                                totalBalance += category.Balance
+
+                                // Determine if category is overspent
+                                overspent := ""
+                                if category.Balance &lt; 0 </span><span class="cov0" title="0">{
+                                        overspent = " ⚠️ OVERSPENT"
+                                }</span>
+
+                                <span class="cov0" title="0">result.WriteString(fmt.Sprintf("  - %s%s\n", category.Name, overspent))
+                                result.WriteString(fmt.Sprintf("    ID: %s\n", category.ID))
+                                result.WriteString(fmt.Sprintf("    Budgeted: %s | Activity: %s | Available: %s\n",
+                                        ynab.FormatCurrency(category.Budgeted),
+                                        ynab.FormatCurrency(category.Activity),
+                                        ynab.FormatCurrency(category.Balance)))
+
+                                // Show goal information if present
+                                if category.GoalType != "" </span><span class="cov0" title="0">{
+                                        result.WriteString(fmt.Sprintf("    Goal: %s", category.GoalType))
+                                        if category.GoalTarget &gt; 0 </span><span class="cov0" title="0">{
+                                                result.WriteString(fmt.Sprintf(" - Target: %s", ynab.FormatCurrency(category.GoalTarget)))
+                                        }</span>
+                                        <span class="cov0" title="0">if category.GoalPercentageComplete &gt; 0 </span><span class="cov0" title="0">{
+                                                result.WriteString(fmt.Sprintf(" (%d%% complete)", category.GoalPercentageComplete))
+                                        }</span>
+                                        <span class="cov0" title="0">result.WriteString("\n")</span>
+                                }
+                        }
+
+                        <span class="cov0" title="0">if activeCategories == 0 </span><span class="cov0" title="0">{
+                                result.WriteString("  (no active categories)\n")
+                        }</span>
+                        <span class="cov0" title="0">result.WriteString("\n")</span>
+                }
+
+                <span class="cov0" title="0">result.WriteString("Summary:\n")
+                result.WriteString(fmt.Sprintf("  Total Budgeted: %s\n", ynab.FormatCurrency(totalBudgeted)))
+                result.WriteString(fmt.Sprintf("  Total Activity: %s\n", ynab.FormatCurrency(totalActivity)))
+                result.WriteString(fmt.Sprintf("  Total Available: %s\n", ynab.FormatCurrency(totalBalance)))
+
+                return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+
+// NewGetCategoryTool creates the get_category_details tool
+func NewGetCategoryTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "get_category_details",
+                Description: "Get detailed information about a specific category including budget, activity, balance, and goal information.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                                "category_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the category",
+                                },
+                        },
+                        Required: []string{"budget_id", "category_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">categoryID, ok := args["category_id"].(string)
+                if !ok || categoryID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("category_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">category, err := client.GetCategory(budgetID, categoryID)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch category: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString(fmt.Sprintf("Category: %s\n", category.Name))
+                result.WriteString(fmt.Sprintf("ID: %s\n", category.ID))
+                result.WriteString(fmt.Sprintf("Group: %s\n\n", category.CategoryGroupName))
+
+                result.WriteString("Budget Information:\n")
+                result.WriteString(fmt.Sprintf("  Budgeted: %s\n", ynab.FormatCurrency(category.Budgeted)))
+                result.WriteString(fmt.Sprintf("  Activity: %s\n", ynab.FormatCurrency(category.Activity)))
+                result.WriteString(fmt.Sprintf("  Available: %s\n\n", ynab.FormatCurrency(category.Balance)))
+
+                if category.Balance &lt; 0 </span><span class="cov0" title="0">{
+                        result.WriteString("⚠️  This category is overspent!\n\n")
+                }</span>
+
+                // Goal information
+                <span class="cov0" title="0">if category.GoalType != "" </span><span class="cov0" title="0">{
+                        result.WriteString("Goal Information:\n")
+                        result.WriteString(fmt.Sprintf("  Type: %s\n", category.GoalType))
+
+                        if category.GoalTarget &gt; 0 </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("  Target: %s\n", ynab.FormatCurrency(category.GoalTarget)))
+                        }</span>
+
+                        <span class="cov0" title="0">if category.GoalTargetMonth != "" </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("  Target Month: %s\n", category.GoalTargetMonth))
+                        }</span>
+
+                        <span class="cov0" title="0">if category.GoalPercentageComplete &gt; 0 </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("  Progress: %d%% complete\n", category.GoalPercentageComplete))
+                        }</span>
+
+                        <span class="cov0" title="0">if category.GoalUnderFunded &gt; 0 </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("  Under Funded: %s\n", ynab.FormatCurrency(category.GoalUnderFunded)))
+                        }</span>
+
+                        <span class="cov0" title="0">result.WriteString("\n")</span>
+                }
+
+                <span class="cov0" title="0">if category.Note != "" </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("Note: %s\n", category.Note))
+                }</span>
+
+                <span class="cov0" title="0">return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package tools
+
+import (
+        "context"
+        "fmt"
+        "strings"
+
+        "github.com/jeff-french/ynab-mcp-server/internal/ynab"
+        "github.com/mark3labs/mcp-go/mcp"
+)
+
+// NewListPayeesTool creates the list_payees tool
+func NewListPayeesTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "list_payees",
+                Description: "List all payees in a budget. Payees are the people or entities you pay money to or receive money from.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                        },
+                        Required: []string{"budget_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">payees, err := client.ListPayees(budgetID)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch payees: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">if len(payees) == 0 </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultText("No payees found."), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString(fmt.Sprintf("Found %d payee(s):\n\n", len(payees)))
+
+                transferPayees := []ynab.Payee{}
+                regularPayees := []ynab.Payee{}
+
+                // Separate transfer payees from regular payees
+                for _, payee := range payees </span><span class="cov0" title="0">{
+                        if payee.Deleted </span><span class="cov0" title="0">{
+                                continue</span>
+                        }
+
+                        <span class="cov0" title="0">if payee.TransferAccountID != "" </span><span class="cov0" title="0">{
+                                transferPayees = append(transferPayees, payee)
+                        }</span> else<span class="cov0" title="0"> {
+                                regularPayees = append(regularPayees, payee)
+                        }</span>
+                }
+
+                // Display regular payees
+                <span class="cov0" title="0">if len(regularPayees) &gt; 0 </span><span class="cov0" title="0">{
+                        result.WriteString("Payees:\n")
+                        for i, payee := range regularPayees </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("%d. %s\n", i+1, payee.Name))
+                                result.WriteString(fmt.Sprintf("   ID: %s\n", payee.ID))
+                        }</span>
+                        <span class="cov0" title="0">result.WriteString("\n")</span>
+                }
+
+                // Display transfer payees
+                <span class="cov0" title="0">if len(transferPayees) &gt; 0 </span><span class="cov0" title="0">{
+                        result.WriteString("Transfer Payees (Account Transfers):\n")
+                        for i, payee := range transferPayees </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("%d. %s\n", i+1, payee.Name))
+                                result.WriteString(fmt.Sprintf("   ID: %s\n", payee.ID))
+                                result.WriteString(fmt.Sprintf("   Transfer Account: %s\n", payee.TransferAccountID))
+                        }</span>
+                }
+
+                <span class="cov0" title="0">result.WriteString(fmt.Sprintf("\nTotal: %d regular payees, %d transfer payees\n",
+                        len(regularPayees), len(transferPayees)))
+
+                return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package tools
+
+import (
+        "github.com/jeff-french/ynab-mcp-server/internal/ynab"
+        "github.com/mark3labs/mcp-go/mcp"
+        "github.com/mark3labs/mcp-go/server"
+)
+
+// ToolDefinition represents a tool and its handler
+type ToolDefinition struct {
+        Tool    mcp.Tool
+        Handler server.ToolHandlerFunc
+}
+
+// GetAllTools returns all available YNAB MCP tools
+func GetAllTools(client *ynab.Client) []ToolDefinition <span class="cov0" title="0">{
+        return []ToolDefinition{
+                // Budget tools
+                NewListBudgetsTool(client),
+                NewGetBudgetTool(client),
+
+                // Account tools
+                NewListAccountsTool(client),
+                NewGetAccountTool(client),
+
+                // Transaction tools
+                NewListTransactionsTool(client),
+                NewGetTransactionTool(client),
+                NewCreateTransactionTool(client),
+                NewUpdateTransactionTool(client),
+
+                // Category tools
+                NewListCategoriesTool(client),
+                NewGetCategoryTool(client),
+
+                // Payee tools
+                NewListPayeesTool(client),
+
+                // Aggregation tools (reduce round trips, improve query efficiency)
+                NewGetSpendingByCategoryTool(client),
+                NewGetSpendingByMonthTool(client),
+                NewGetBudgetSummaryTool(client),
+                NewGetPayeeSummaryTool(client),
+                NewGetAccountBalancesTool(client),
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">package tools
+
+import (
+        "context"
+        "fmt"
+        "strings"
+        "time"
+
+        "github.com/jeff-french/ynab-mcp-server/internal/ynab"
+        "github.com/mark3labs/mcp-go/mcp"
+)
+
+// NewListTransactionsTool creates the list_transactions tool
+func NewListTransactionsTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "list_transactions",
+                Description: "List transactions in a budget. Can filter by date (since_date) or type (uncategorized/unapproved). Returns up to most recent transactions.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                                "since_date": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Only return transactions on or after this date (YYYY-MM-DD format). Optional.",
+                                },
+                                "type": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Filter by type: 'uncategorized' or 'unapproved'. Optional.",
+                                        "enum":        []string{"uncategorized", "unapproved"},
+                                },
+                                "account_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Only return transactions for this specific account ID. Optional.",
+                                },
+                        },
+                        Required: []string{"budget_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                // Build query
+                <span class="cov0" title="0">query := &amp;ynab.TransactionQuery{}
+                if sinceDate, ok := args["since_date"].(string); ok &amp;&amp; sinceDate != "" </span><span class="cov0" title="0">{
+                        query.SinceDate = sinceDate
+                }</span>
+                <span class="cov0" title="0">if txType, ok := args["type"].(string); ok &amp;&amp; txType != "" </span><span class="cov0" title="0">{
+                        query.Type = txType
+                }</span>
+
+                <span class="cov0" title="0">var transactions []ynab.Transaction
+                var err error
+
+                // Check if account_id is specified
+                if accountID, ok := args["account_id"].(string); ok &amp;&amp; accountID != "" </span><span class="cov0" title="0">{
+                        transactions, err = client.ListAccountTransactions(budgetID, accountID, query)
+                }</span> else<span class="cov0" title="0"> {
+                        transactions, err = client.ListTransactions(budgetID, query)
+                }</span>
+
+                <span class="cov0" title="0">if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch transactions: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">if len(transactions) == 0 </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultText("No transactions found."), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString(fmt.Sprintf("Found %d transaction(s):\n\n", len(transactions)))
+
+                // Limit display to most recent 50 transactions
+                displayCount := len(transactions)
+                if displayCount &gt; 50 </span><span class="cov0" title="0">{
+                        displayCount = 50
+                }</span>
+
+                <span class="cov0" title="0">totalAmount := int64(0)
+                for i := 0; i &lt; displayCount; i++ </span><span class="cov0" title="0">{
+                        tx := transactions[i]
+                        if tx.Deleted </span><span class="cov0" title="0">{
+                                continue</span>
+                        }
+
+                        <span class="cov0" title="0">totalAmount += tx.Amount
+
+                        // Format cleared status
+                        clearedSymbol := "⚪" // uncleared
+                        if tx.Cleared == "cleared" </span><span class="cov0" title="0">{
+                                clearedSymbol = "✓"
+                        }</span> else<span class="cov0" title="0"> if tx.Cleared == "reconciled" </span><span class="cov0" title="0">{
+                                clearedSymbol = "🔒"
+                        }</span>
+
+                        // Format approval status
+                        <span class="cov0" title="0">approvalSymbol := ""
+                        if !tx.Approved </span><span class="cov0" title="0">{
+                                approvalSymbol = " [UNAPPROVED]"
+                        }</span>
+
+                        <span class="cov0" title="0">result.WriteString(fmt.Sprintf("%d. %s %s - %s%s\n",
+                                i+1,
+                                tx.Date,
+                                clearedSymbol,
+                                tx.PayeeName,
+                                approvalSymbol))
+                        result.WriteString(fmt.Sprintf("   ID: %s\n", tx.ID))
+                        result.WriteString(fmt.Sprintf("   Amount: %s\n", ynab.FormatCurrency(tx.Amount)))
+                        result.WriteString(fmt.Sprintf("   Account: %s\n", tx.AccountName))
+                        if tx.CategoryName != "" </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("   Category: %s\n", tx.CategoryName))
+                        }</span>
+                        <span class="cov0" title="0">if tx.Memo != "" </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("   Memo: %s\n", tx.Memo))
+                        }</span>
+                        <span class="cov0" title="0">result.WriteString("\n")</span>
+                }
+
+                <span class="cov0" title="0">if len(transactions) &gt; displayCount </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("... and %d more transactions (showing most recent %d)\n\n",
+                                len(transactions)-displayCount, displayCount))
+                }</span>
+
+                <span class="cov0" title="0">result.WriteString(fmt.Sprintf("Total Amount (displayed): %s\n", ynab.FormatCurrency(totalAmount)))
+
+                return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+
+// NewGetTransactionTool creates the get_transaction tool
+func NewGetTransactionTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "get_transaction_details",
+                Description: "Get detailed information about a specific transaction including all fields and any subtransactions (splits).",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                                "transaction_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the transaction",
+                                },
+                        },
+                        Required: []string{"budget_id", "transaction_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">transactionID, ok := args["transaction_id"].(string)
+                if !ok || transactionID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("transaction_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">tx, err := client.GetTransaction(budgetID, transactionID)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to fetch transaction: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString("Transaction Details\n\n")
+                result.WriteString(fmt.Sprintf("Date: %s\n", tx.Date))
+                result.WriteString(fmt.Sprintf("Payee: %s\n", tx.PayeeName))
+                result.WriteString(fmt.Sprintf("Amount: %s\n", ynab.FormatCurrency(tx.Amount)))
+                result.WriteString(fmt.Sprintf("Account: %s\n", tx.AccountName))
+                if tx.CategoryName != "" </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("Category: %s\n", tx.CategoryName))
+                }</span>
+                <span class="cov0" title="0">if tx.Memo != "" </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("Memo: %s\n", tx.Memo))
+                }</span>
+
+                <span class="cov0" title="0">result.WriteString("\nStatus:\n")
+                result.WriteString(fmt.Sprintf("  Cleared: %s\n", tx.Cleared))
+                result.WriteString(fmt.Sprintf("  Approved: %t\n", tx.Approved))
+                if tx.FlagColor != "" </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("  Flag: %s\n", tx.FlagColor))
+                }</span>
+
+                <span class="cov0" title="0">if len(tx.Subtransactions) &gt; 0 </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("\nSplit into %d subtransactions:\n", len(tx.Subtransactions)))
+                        for i, sub := range tx.Subtransactions </span><span class="cov0" title="0">{
+                                result.WriteString(fmt.Sprintf("  %d. %s - %s: %s\n",
+                                        i+1, sub.CategoryName, sub.PayeeName, ynab.FormatCurrency(sub.Amount)))
+                                if sub.Memo != "" </span><span class="cov0" title="0">{
+                                        result.WriteString(fmt.Sprintf("     Memo: %s\n", sub.Memo))
+                                }</span>
+                        }
+                }
+
+                <span class="cov0" title="0">result.WriteString(fmt.Sprintf("\nID: %s\n", tx.ID))
+
+                return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+
+// NewCreateTransactionTool creates the create_transaction tool
+func NewCreateTransactionTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "create_transaction",
+                Description: "Create a new transaction in a budget. Requires account_id, date, and amount. Optionally specify payee, category, and memo.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                                "account_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the account for this transaction",
+                                },
+                                "date": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Transaction date in YYYY-MM-DD format (e.g., 2024-01-15)",
+                                },
+                                "amount": map[string]interface{}{
+                                        "type":        "number",
+                                        "description": "Transaction amount in currency units (e.g., -45.67 for an expense, 100.00 for income)",
+                                },
+                                "payee_name": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Name of the payee. Optional.",
+                                },
+                                "category_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "ID of the category for this transaction. Optional.",
+                                },
+                                "memo": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Memo/note for this transaction. Optional.",
+                                },
+                                "cleared": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "Cleared status: 'cleared', 'uncleared', or 'reconciled'. Default is 'uncleared'.",
+                                        "enum":        []string{"cleared", "uncleared", "reconciled"},
+                                },
+                        },
+                        Required: []string{"budget_id", "account_id", "date", "amount"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">accountID, ok := args["account_id"].(string)
+                if !ok || accountID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("account_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">date, ok := args["date"].(string)
+                if !ok || date == "" </span><span class="cov0" title="0">{
+                        date = time.Now().Format("2006-01-02")
+                }</span>
+
+                <span class="cov0" title="0">amount, ok := args["amount"].(float64)
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("amount is required and must be a number"), nil
+                }</span>
+
+                // Create transaction request
+                <span class="cov0" title="0">req := &amp;ynab.CreateTransactionRequest{}
+                req.Transaction.AccountID = accountID
+                req.Transaction.Date = date
+                req.Transaction.Amount = ynab.FloatToMilliunits(amount)
+
+                if payeeName, ok := args["payee_name"].(string); ok &amp;&amp; payeeName != "" </span><span class="cov0" title="0">{
+                        req.Transaction.PayeeName = payeeName
+                }</span>
+
+                <span class="cov0" title="0">if categoryID, ok := args["category_id"].(string); ok &amp;&amp; categoryID != "" </span><span class="cov0" title="0">{
+                        req.Transaction.CategoryID = categoryID
+                }</span>
+
+                <span class="cov0" title="0">if memo, ok := args["memo"].(string); ok &amp;&amp; memo != "" </span><span class="cov0" title="0">{
+                        req.Transaction.Memo = memo
+                }</span>
+
+                <span class="cov0" title="0">if cleared, ok := args["cleared"].(string); ok &amp;&amp; cleared != "" </span><span class="cov0" title="0">{
+                        req.Transaction.Cleared = cleared
+                }</span> else<span class="cov0" title="0"> {
+                        req.Transaction.Cleared = "uncleared"
+                }</span>
+
+                <span class="cov0" title="0">req.Transaction.Approved = true
+
+                tx, err := client.CreateTransaction(budgetID, req)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to create transaction: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString("Transaction created successfully!\n\n")
+                result.WriteString(fmt.Sprintf("ID: %s\n", tx.ID))
+                result.WriteString(fmt.Sprintf("Date: %s\n", tx.Date))
+                result.WriteString(fmt.Sprintf("Payee: %s\n", tx.PayeeName))
+                result.WriteString(fmt.Sprintf("Amount: %s\n", ynab.FormatCurrency(tx.Amount)))
+                result.WriteString(fmt.Sprintf("Account: %s\n", tx.AccountName))
+                if tx.CategoryName != "" </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("Category: %s\n", tx.CategoryName))
+                }</span>
+                <span class="cov0" title="0">if tx.Memo != "" </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("Memo: %s\n", tx.Memo))
+                }</span>
+
+                <span class="cov0" title="0">return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+
+// NewUpdateTransactionTool creates the update_transaction tool
+func NewUpdateTransactionTool(client *ynab.Client) ToolDefinition <span class="cov0" title="0">{
+        tool := mcp.Tool{
+                Name:        "update_transaction",
+                Description: "Update an existing transaction. Specify the fields you want to change. All fields are optional except budget_id and transaction_id.",
+                InputSchema: mcp.ToolInputSchema{
+                        Type: "object",
+                        Properties: map[string]interface{}{
+                                "budget_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the budget",
+                                },
+                                "transaction_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "The ID of the transaction to update",
+                                },
+                                "date": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "New date in YYYY-MM-DD format. Optional.",
+                                },
+                                "amount": map[string]interface{}{
+                                        "type":        "number",
+                                        "description": "New amount in currency units. Optional.",
+                                },
+                                "payee_name": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "New payee name. Optional.",
+                                },
+                                "category_id": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "New category ID. Optional.",
+                                },
+                                "memo": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "New memo. Optional.",
+                                },
+                                "cleared": map[string]interface{}{
+                                        "type":        "string",
+                                        "description": "New cleared status: 'cleared', 'uncleared', or 'reconciled'. Optional.",
+                                        "enum":        []string{"cleared", "uncleared", "reconciled"},
+                                },
+                        },
+                        Required: []string{"budget_id", "transaction_id"},
+                },
+        }
+
+        handler := func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) </span><span class="cov0" title="0">{
+                args, ok := request.Params.Arguments.(map[string]interface{})
+                if !ok </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("Invalid arguments"), nil
+                }</span>
+
+                <span class="cov0" title="0">budgetID, ok := args["budget_id"].(string)
+                if !ok || budgetID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("budget_id is required"), nil
+                }</span>
+
+                <span class="cov0" title="0">transactionID, ok := args["transaction_id"].(string)
+                if !ok || transactionID == "" </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError("transaction_id is required"), nil
+                }</span>
+
+                // Build update request with only specified fields
+                <span class="cov0" title="0">req := &amp;ynab.UpdateTransactionRequest{}
+
+                if date, ok := args["date"].(string); ok &amp;&amp; date != "" </span><span class="cov0" title="0">{
+                        req.Transaction.Date = date
+                }</span>
+
+                <span class="cov0" title="0">if amount, ok := args["amount"].(float64); ok </span><span class="cov0" title="0">{
+                        milliunits := ynab.FloatToMilliunits(amount)
+                        req.Transaction.Amount = milliunits
+                }</span>
+
+                <span class="cov0" title="0">if payeeName, ok := args["payee_name"].(string); ok &amp;&amp; payeeName != "" </span><span class="cov0" title="0">{
+                        req.Transaction.PayeeName = payeeName
+                }</span>
+
+                <span class="cov0" title="0">if categoryID, ok := args["category_id"].(string); ok &amp;&amp; categoryID != "" </span><span class="cov0" title="0">{
+                        req.Transaction.CategoryID = categoryID
+                }</span>
+
+                <span class="cov0" title="0">if memo, ok := args["memo"].(string); ok &amp;&amp; memo != "" </span><span class="cov0" title="0">{
+                        req.Transaction.Memo = memo
+                }</span>
+
+                <span class="cov0" title="0">if cleared, ok := args["cleared"].(string); ok &amp;&amp; cleared != "" </span><span class="cov0" title="0">{
+                        req.Transaction.Cleared = cleared
+                }</span>
+
+                <span class="cov0" title="0">tx, err := client.UpdateTransaction(budgetID, transactionID, req)
+                if err != nil </span><span class="cov0" title="0">{
+                        return mcp.NewToolResultError(fmt.Sprintf("Failed to update transaction: %v", err)), nil
+                }</span>
+
+                <span class="cov0" title="0">var result strings.Builder
+                result.WriteString("Transaction updated successfully!\n\n")
+                result.WriteString(fmt.Sprintf("ID: %s\n", tx.ID))
+                result.WriteString(fmt.Sprintf("Date: %s\n", tx.Date))
+                result.WriteString(fmt.Sprintf("Payee: %s\n", tx.PayeeName))
+                result.WriteString(fmt.Sprintf("Amount: %s\n", ynab.FormatCurrency(tx.Amount)))
+                result.WriteString(fmt.Sprintf("Account: %s\n", tx.AccountName))
+                if tx.CategoryName != "" </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("Category: %s\n", tx.CategoryName))
+                }</span>
+                <span class="cov0" title="0">if tx.Memo != "" </span><span class="cov0" title="0">{
+                        result.WriteString(fmt.Sprintf("Memo: %s\n", tx.Memo))
+                }</span>
+                <span class="cov0" title="0">result.WriteString(fmt.Sprintf("Cleared: %s\n", tx.Cleared))
+
+                return mcp.NewToolResultText(result.String()), nil</span>
+        }
+
+        <span class="cov0" title="0">return ToolDefinition{Tool: tool, Handler: handler}</span>
+}
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">package ynab
+
+import "fmt"
+
+// ListAccounts returns all accounts for a budget
+func (c *Client) ListAccounts(budgetID string) ([]Account, error) <span class="cov0" title="0">{
+        var resp AccountsResponse
+        path := fmt.Sprintf("/budgets/%s/accounts", budgetID)
+        if err := c.get(path, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return resp.Data.Accounts, nil</span>
+}
+
+// GetAccount returns a single account
+func (c *Client) GetAccount(budgetID, accountID string) (*Account, error) <span class="cov0" title="0">{
+        accounts, err := c.ListAccounts(budgetID)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">for _, account := range accounts </span><span class="cov0" title="0">{
+                if account.ID == accountID </span><span class="cov0" title="0">{
+                        return &amp;account, nil
+                }</span>
+        }
+
+        <span class="cov0" title="0">return nil, fmt.Errorf("account not found: %s", accountID)</span>
+}
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">package ynab
+
+import "fmt"
+
+// ListBudgets returns all budgets
+func (c *Client) ListBudgets() ([]Budget, error) <span class="cov0" title="0">{
+        var resp BudgetSummaryResponse
+        if err := c.get("/budgets", &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return resp.Data.Budgets, nil</span>
+}
+
+// GetBudget returns a single budget with all related entities
+func (c *Client) GetBudget(budgetID string) (*Budget, error) <span class="cov0" title="0">{
+        var resp BudgetDetailResponse
+        path := fmt.Sprintf("/budgets/%s", budgetID)
+        if err := c.get(path, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return &amp;resp.Data.Budget, nil</span>
+}
+
+// GetBudgetSettings returns budget settings (summary without all entities)
+func (c *Client) GetBudgetSettings(budgetID string) (*Budget, error) <span class="cov0" title="0">{
+        var resp BudgetDetailResponse
+        path := fmt.Sprintf("/budgets/%s/settings", budgetID)
+        if err := c.get(path, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return &amp;resp.Data.Budget, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">package ynab
+
+import "fmt"
+
+// ListCategories returns all category groups and categories for a budget
+func (c *Client) ListCategories(budgetID string) ([]CategoryGroup, error) <span class="cov0" title="0">{
+        var resp CategoriesResponse
+        path := fmt.Sprintf("/budgets/%s/categories", budgetID)
+        if err := c.get(path, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return resp.Data.CategoryGroups, nil</span>
+}
+
+// GetCategory returns a single category by ID
+func (c *Client) GetCategory(budgetID, categoryID string) (*Category, error) <span class="cov0" title="0">{
+        categoryGroups, err := c.ListCategories(budgetID)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        // Search for category across all groups
+        <span class="cov0" title="0">for _, group := range categoryGroups </span><span class="cov0" title="0">{
+                for _, category := range group.Categories </span><span class="cov0" title="0">{
+                        if category.ID == categoryID </span><span class="cov0" title="0">{
+                                return &amp;category, nil
+                        }</span>
+                }
+        }
+
+        <span class="cov0" title="0">return nil, fmt.Errorf("category not found: %s", categoryID)</span>
+}
+
+// GetCategoryByMonth returns category details for a specific month
+func (c *Client) GetCategoryByMonth(budgetID, month, categoryID string) (*Category, error) <span class="cov0" title="0">{
+        var resp struct {
+                Data struct {
+                        Category Category `json:"category"`
+                } `json:"data"`
+        }
+        path := fmt.Sprintf("/budgets/%s/months/%s/categories/%s", budgetID, month, categoryID)
+        if err := c.get(path, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return &amp;resp.Data.Category, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file18" style="display: none">package ynab
+
+import (
+        "bytes"
+        "encoding/json"
+        "fmt"
+        "io"
+        "log/slog"
+        "net/http"
+        "time"
+)
+
+const (
+        baseURL        = "https://api.ynab.com/v1"
+        requestTimeout = 30 * time.Second
+        maxRetries     = 3
+)
+
+// Client is the YNAB API HTTP client
+type Client struct {
+        accessToken string
+        httpClient  *http.Client
+}
+
+// NewClient creates a new YNAB API client
+func NewClient(accessToken string) *Client <span class="cov0" title="0">{
+        return &amp;Client{
+                accessToken: accessToken,
+                httpClient: &amp;http.Client{
+                        Timeout: requestTimeout,
+                },
+        }
+}</span>
+
+// doRequest executes an HTTP request with retry logic and rate limit handling
+func (c *Client) doRequest(method, path string, body interface{}, result interface{}) error <span class="cov0" title="0">{
+        var lastErr error
+
+        for attempt := 0; attempt &lt; maxRetries; attempt++ </span><span class="cov0" title="0">{
+                if attempt &gt; 0 </span><span class="cov0" title="0">{
+                        // Exponential backoff: 1s, 2s, 4s
+                        backoff := time.Duration(1&lt;&lt;uint(attempt-1)) * time.Second
+                        slog.Debug("Retrying request after backoff", "attempt", attempt, "backoff", backoff)
+                        time.Sleep(backoff)
+                }</span>
+
+                // Prepare request body
+                <span class="cov0" title="0">var bodyReader io.Reader
+                if body != nil </span><span class="cov0" title="0">{
+                        jsonBody, err := json.Marshal(body)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return fmt.Errorf("failed to marshal request body: %w", err)
+                        }</span>
+                        <span class="cov0" title="0">bodyReader = bytes.NewReader(jsonBody)</span>
+                }
+
+                // Create HTTP request
+                <span class="cov0" title="0">url := baseURL + path
+                req, err := http.NewRequest(method, url, bodyReader)
+                if err != nil </span><span class="cov0" title="0">{
+                        return fmt.Errorf("failed to create request: %w", err)
+                }</span>
+
+                // Add headers
+                <span class="cov0" title="0">req.Header.Set("Authorization", "Bearer "+c.accessToken)
+                if body != nil </span><span class="cov0" title="0">{
+                        req.Header.Set("Content-Type", "application/json")
+                }</span>
+                <span class="cov0" title="0">req.Header.Set("Accept", "application/json")
+
+                // Execute request
+                resp, err := c.httpClient.Do(req)
+                if err != nil </span><span class="cov0" title="0">{
+                        lastErr = fmt.Errorf("request failed: %w", err)
+                        slog.Warn("HTTP request failed", "error", err, "attempt", attempt+1)
+                        continue</span>
+                }
+                <span class="cov0" title="0">defer resp.Body.Close()
+
+                // Read response body
+                respBody, err := io.ReadAll(resp.Body)
+                if err != nil </span><span class="cov0" title="0">{
+                        lastErr = fmt.Errorf("failed to read response: %w", err)
+                        slog.Warn("Failed to read response body", "error", err)
+                        continue</span>
+                }
+
+                // Handle rate limiting (429 Too Many Requests)
+                <span class="cov0" title="0">if resp.StatusCode == http.StatusTooManyRequests </span><span class="cov0" title="0">{
+                        lastErr = fmt.Errorf("rate limit exceeded")
+                        slog.Warn("Rate limit exceeded, will retry", "attempt", attempt+1)
+                        continue</span>
+                }
+
+                // Handle other HTTP errors
+                <span class="cov0" title="0">if resp.StatusCode &gt;= 400 </span><span class="cov0" title="0">{
+                        var apiErr APIErrorResponse
+                        if err := json.Unmarshal(respBody, &amp;apiErr); err == nil &amp;&amp; apiErr.Error.Detail != "" </span><span class="cov0" title="0">{
+                                return fmt.Errorf("YNAB API error (%d): %s", resp.StatusCode, apiErr.Error.Detail)
+                        }</span>
+                        <span class="cov0" title="0">return fmt.Errorf("YNAB API error: status %d", resp.StatusCode)</span>
+                }
+
+                // Parse successful response
+                <span class="cov0" title="0">if result != nil </span><span class="cov0" title="0">{
+                        if err := json.Unmarshal(respBody, result); err != nil </span><span class="cov0" title="0">{
+                                return fmt.Errorf("failed to parse response: %w", err)
+                        }</span>
+                }
+
+                <span class="cov0" title="0">return nil</span>
+        }
+
+        <span class="cov0" title="0">return fmt.Errorf("request failed after %d attempts: %w", maxRetries, lastErr)</span>
+}
+
+// get performs a GET request
+func (c *Client) get(path string, result interface{}) error <span class="cov0" title="0">{
+        return c.doRequest("GET", path, nil, result)
+}</span>
+
+// post performs a POST request
+func (c *Client) post(path string, body interface{}, result interface{}) error <span class="cov0" title="0">{
+        return c.doRequest("POST", path, body, result)
+}</span>
+
+// put performs a PUT request
+func (c *Client) put(path string, body interface{}, result interface{}) error <span class="cov0" title="0">{
+        return c.doRequest("PUT", path, body, result)
+}</span>
+</pre>
+		
+		<pre class="file" id="file19" style="display: none">package ynab
+
+import "fmt"
+
+// ListPayees returns all payees for a budget
+func (c *Client) ListPayees(budgetID string) ([]Payee, error) <span class="cov0" title="0">{
+        var resp PayeesResponse
+        path := fmt.Sprintf("/budgets/%s/payees", budgetID)
+        if err := c.get(path, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return resp.Data.Payees, nil</span>
+}
+
+// GetPayee returns a single payee by ID
+func (c *Client) GetPayee(budgetID, payeeID string) (*Payee, error) <span class="cov0" title="0">{
+        payees, err := c.ListPayees(budgetID)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">for _, payee := range payees </span><span class="cov0" title="0">{
+                if payee.ID == payeeID </span><span class="cov0" title="0">{
+                        return &amp;payee, nil
+                }</span>
+        }
+
+        <span class="cov0" title="0">return nil, fmt.Errorf("payee not found: %s", payeeID)</span>
+}
+</pre>
+		
+		<pre class="file" id="file20" style="display: none">package ynab
+
+import (
+        "fmt"
+        "net/url"
+)
+
+// TransactionQuery holds parameters for querying transactions
+type TransactionQuery struct {
+        SinceDate string // YYYY-MM-DD format
+        Type      string // uncategorized, unapproved
+}
+
+// ListTransactions returns all transactions for a budget
+func (c *Client) ListTransactions(budgetID string, query *TransactionQuery) ([]Transaction, error) <span class="cov0" title="0">{
+        path := fmt.Sprintf("/budgets/%s/transactions", budgetID)
+
+        // Add query parameters if provided
+        if query != nil </span><span class="cov0" title="0">{
+                params := url.Values{}
+                if query.SinceDate != "" </span><span class="cov0" title="0">{
+                        params.Add("since_date", query.SinceDate)
+                }</span>
+                <span class="cov0" title="0">if query.Type != "" </span><span class="cov0" title="0">{
+                        params.Add("type", query.Type)
+                }</span>
+                <span class="cov0" title="0">if len(params) &gt; 0 </span><span class="cov0" title="0">{
+                        path += "?" + params.Encode()
+                }</span>
+        }
+
+        <span class="cov0" title="0">var resp TransactionsResponse
+        if err := c.get(path, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return resp.Data.Transactions, nil</span>
+}
+
+// GetTransaction returns a single transaction
+func (c *Client) GetTransaction(budgetID, transactionID string) (*Transaction, error) <span class="cov0" title="0">{
+        var resp TransactionResponse
+        path := fmt.Sprintf("/budgets/%s/transactions/%s", budgetID, transactionID)
+        if err := c.get(path, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return &amp;resp.Data.Transaction, nil</span>
+}
+
+// CreateTransactionRequest represents a request to create a transaction
+type CreateTransactionRequest struct {
+        Transaction struct {
+                AccountID  string `json:"account_id"`
+                Date       string `json:"date"` // YYYY-MM-DD
+                Amount     int64  `json:"amount"` // in milliunits
+                PayeeID    string `json:"payee_id,omitempty"`
+                PayeeName  string `json:"payee_name,omitempty"`
+                CategoryID string `json:"category_id,omitempty"`
+                Memo       string `json:"memo,omitempty"`
+                Cleared    string `json:"cleared,omitempty"` // cleared, uncleared, reconciled
+                Approved   bool   `json:"approved,omitempty"`
+                FlagColor  string `json:"flag_color,omitempty"` // red, orange, yellow, green, blue, purple
+        } `json:"transaction"`
+}
+
+// CreateTransaction creates a new transaction
+func (c *Client) CreateTransaction(budgetID string, req *CreateTransactionRequest) (*Transaction, error) <span class="cov0" title="0">{
+        var resp TransactionResponse
+        path := fmt.Sprintf("/budgets/%s/transactions", budgetID)
+        if err := c.post(path, req, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return &amp;resp.Data.Transaction, nil</span>
+}
+
+// UpdateTransactionRequest represents a request to update a transaction
+type UpdateTransactionRequest struct {
+        Transaction struct {
+                AccountID  string `json:"account_id,omitempty"`
+                Date       string `json:"date,omitempty"`
+                Amount     int64  `json:"amount,omitempty"`
+                PayeeID    string `json:"payee_id,omitempty"`
+                PayeeName  string `json:"payee_name,omitempty"`
+                CategoryID string `json:"category_id,omitempty"`
+                Memo       string `json:"memo,omitempty"`
+                Cleared    string `json:"cleared,omitempty"`
+                Approved   *bool  `json:"approved,omitempty"`
+                FlagColor  string `json:"flag_color,omitempty"`
+        } `json:"transaction"`
+}
+
+// UpdateTransaction updates an existing transaction
+func (c *Client) UpdateTransaction(budgetID, transactionID string, req *UpdateTransactionRequest) (*Transaction, error) <span class="cov0" title="0">{
+        var resp TransactionResponse
+        path := fmt.Sprintf("/budgets/%s/transactions/%s", budgetID, transactionID)
+        if err := c.put(path, req, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return &amp;resp.Data.Transaction, nil</span>
+}
+
+// ListAccountTransactions returns all transactions for a specific account
+func (c *Client) ListAccountTransactions(budgetID, accountID string, query *TransactionQuery) ([]Transaction, error) <span class="cov0" title="0">{
+        path := fmt.Sprintf("/budgets/%s/accounts/%s/transactions", budgetID, accountID)
+
+        // Add query parameters if provided
+        if query != nil </span><span class="cov0" title="0">{
+                params := url.Values{}
+                if query.SinceDate != "" </span><span class="cov0" title="0">{
+                        params.Add("since_date", query.SinceDate)
+                }</span>
+                <span class="cov0" title="0">if query.Type != "" </span><span class="cov0" title="0">{
+                        params.Add("type", query.Type)
+                }</span>
+                <span class="cov0" title="0">if len(params) &gt; 0 </span><span class="cov0" title="0">{
+                        path += "?" + params.Encode()
+                }</span>
+        }
+
+        <span class="cov0" title="0">var resp TransactionsResponse
+        if err := c.get(path, &amp;resp); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return resp.Data.Transactions, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file21" style="display: none">package ynab
+
+import "fmt"
+
+// APIErrorResponse represents an error response from the YNAB API
+type APIErrorResponse struct {
+        Error struct {
+                ID     string `json:"id"`
+                Name   string `json:"name"`
+                Detail string `json:"detail"`
+        } `json:"error"`
+}
+
+// Budget represents a YNAB budget
+type Budget struct {
+        ID                   string          `json:"id"`
+        Name                 string          `json:"name"`
+        LastModifiedOn       string          `json:"last_modified_on"`
+        FirstMonth           string          `json:"first_month"`
+        LastMonth            string          `json:"last_month"`
+        DateFormat           *DateFormat     `json:"date_format"`
+        CurrencyFormat       *CurrencyFormat `json:"currency_format"`
+        Accounts             []Account       `json:"accounts,omitempty"`
+        Categories           []Category      `json:"categories,omitempty"`
+        CategoryGroups       []CategoryGroup `json:"category_groups,omitempty"`
+        Payees               []Payee         `json:"payees,omitempty"`
+        Months               []Month         `json:"months,omitempty"`
+        Transactions         []Transaction   `json:"transactions,omitempty"`
+        ScheduledTransactions []ScheduledTransaction `json:"scheduled_transactions,omitempty"`
+}
+
+// DateFormat represents budget date format settings
+type DateFormat struct {
+        Format string `json:"format"`
+}
+
+// CurrencyFormat represents budget currency format settings
+type CurrencyFormat struct {
+        ISOCode          string `json:"iso_code"`
+        ExampleFormat    string `json:"example_format"`
+        DecimalDigits    int    `json:"decimal_digits"`
+        DecimalSeparator string `json:"decimal_separator"`
+        SymbolFirst      bool   `json:"symbol_first"`
+        GroupSeparator   string `json:"group_separator"`
+        CurrencySymbol   string `json:"currency_symbol"`
+        DisplaySymbol    bool   `json:"display_symbol"`
+}
+
+// Account represents a YNAB account
+type Account struct {
+        ID                  string `json:"id"`
+        Name                string `json:"name"`
+        Type                string `json:"type"` // checking, savings, creditCard, etc.
+        OnBudget            bool   `json:"on_budget"`
+        Closed              bool   `json:"closed"`
+        Note                string `json:"note"`
+        Balance             int64  `json:"balance"` // in milliunits
+        ClearedBalance      int64  `json:"cleared_balance"`
+        UnclearedBalance    int64  `json:"uncleared_balance"`
+        TransferPayeeID     string `json:"transfer_payee_id"`
+        DirectImportLinked  bool   `json:"direct_import_linked"`
+        DirectImportInError bool   `json:"direct_import_in_error"`
+        Deleted             bool   `json:"deleted"`
+}
+
+// Transaction represents a YNAB transaction
+type Transaction struct {
+        ID                  string              `json:"id"`
+        Date                string              `json:"date"`
+        Amount              int64               `json:"amount"` // in milliunits
+        Memo                string              `json:"memo"`
+        Cleared             string              `json:"cleared"` // cleared, uncleared, reconciled
+        Approved            bool                `json:"approved"`
+        FlagColor           string              `json:"flag_color"`
+        FlagName            string              `json:"flag_name"`
+        AccountID           string              `json:"account_id"`
+        AccountName         string              `json:"account_name"`
+        PayeeID             string              `json:"payee_id"`
+        PayeeName           string              `json:"payee_name"`
+        CategoryID          string              `json:"category_id"`
+        CategoryName        string              `json:"category_name"`
+        TransferAccountID   string              `json:"transfer_account_id"`
+        TransferTransactionID string            `json:"transfer_transaction_id"`
+        MatchedTransactionID string             `json:"matched_transaction_id"`
+        ImportID            string              `json:"import_id"`
+        ImportPayeeName     string              `json:"import_payee_name"`
+        ImportPayeeNameOriginal string          `json:"import_payee_name_original"`
+        DebtTransactionType string              `json:"debt_transaction_type"`
+        Deleted             bool                `json:"deleted"`
+        Subtransactions     []SubTransaction    `json:"subtransactions,omitempty"`
+}
+
+// SubTransaction represents a split transaction
+type SubTransaction struct {
+        ID                 string `json:"id"`
+        TransactionID      string `json:"transaction_id"`
+        Amount             int64  `json:"amount"` // in milliunits
+        Memo               string `json:"memo"`
+        PayeeID            string `json:"payee_id"`
+        PayeeName          string `json:"payee_name"`
+        CategoryID         string `json:"category_id"`
+        CategoryName       string `json:"category_name"`
+        TransferAccountID  string `json:"transfer_account_id"`
+        TransferTransactionID string `json:"transfer_transaction_id"`
+        Deleted            bool   `json:"deleted"`
+}
+
+// Category represents a budget category
+type Category struct {
+        ID                      string `json:"id"`
+        CategoryGroupID         string `json:"category_group_id"`
+        CategoryGroupName       string `json:"category_group_name"`
+        Name                    string `json:"name"`
+        Hidden                  bool   `json:"hidden"`
+        OriginalCategoryGroupID string `json:"original_category_group_id"`
+        Note                    string `json:"note"`
+        Budgeted                int64  `json:"budgeted"` // in milliunits
+        Activity                int64  `json:"activity"`
+        Balance                 int64  `json:"balance"`
+        GoalType                string `json:"goal_type"`
+        GoalDay                 int    `json:"goal_day"`
+        GoalCadence             int    `json:"goal_cadence"`
+        GoalCadenceFrequency    int    `json:"goal_cadence_frequency"`
+        GoalCreationMonth       string `json:"goal_creation_month"`
+        GoalTarget              int64  `json:"goal_target"`
+        GoalTargetMonth         string `json:"goal_target_month"`
+        GoalPercentageComplete  int    `json:"goal_percentage_complete"`
+        GoalMonthsToBudget      int    `json:"goal_months_to_budget"`
+        GoalUnderFunded         int64  `json:"goal_under_funded"`
+        GoalOverallFunded       int64  `json:"goal_overall_funded"`
+        GoalOverallLeft         int64  `json:"goal_overall_left"`
+        Deleted                 bool   `json:"deleted"`
+}
+
+// CategoryGroup represents a group of categories
+type CategoryGroup struct {
+        ID      string     `json:"id"`
+        Name    string     `json:"name"`
+        Hidden  bool       `json:"hidden"`
+        Deleted bool       `json:"deleted"`
+        Categories []Category `json:"categories,omitempty"`
+}
+
+// Payee represents a payee
+type Payee struct {
+        ID                string `json:"id"`
+        Name              string `json:"name"`
+        TransferAccountID string `json:"transfer_account_id"`
+        Deleted           bool   `json:"deleted"`
+}
+
+// Month represents a budget month
+type Month struct {
+        Month      string     `json:"month"`
+        Note       string     `json:"note"`
+        Income     int64      `json:"income"` // in milliunits
+        Budgeted   int64      `json:"budgeted"`
+        Activity   int64      `json:"activity"`
+        ToBeBudgeted int64    `json:"to_be_budgeted"`
+        AgeOfMoney int        `json:"age_of_money"`
+        Deleted    bool       `json:"deleted"`
+        Categories []Category `json:"categories,omitempty"`
+}
+
+// ScheduledTransaction represents a scheduled transaction
+type ScheduledTransaction struct {
+        ID                string `json:"id"`
+        DateFirst         string `json:"date_first"`
+        DateNext          string `json:"date_next"`
+        Frequency         string `json:"frequency"`
+        Amount            int64  `json:"amount"` // in milliunits
+        Memo              string `json:"memo"`
+        FlagColor         string `json:"flag_color"`
+        FlagName          string `json:"flag_name"`
+        AccountID         string `json:"account_id"`
+        AccountName       string `json:"account_name"`
+        PayeeID           string `json:"payee_id"`
+        PayeeName         string `json:"payee_name"`
+        CategoryID        string `json:"category_id"`
+        CategoryName      string `json:"category_name"`
+        TransferAccountID string `json:"transfer_account_id"`
+        Deleted           bool   `json:"deleted"`
+}
+
+// API response wrappers
+
+// BudgetSummaryResponse wraps budget list response
+type BudgetSummaryResponse struct {
+        Data struct {
+                Budgets       []Budget `json:"budgets"`
+                DefaultBudget *Budget  `json:"default_budget"`
+        } `json:"data"`
+}
+
+// BudgetDetailResponse wraps single budget response
+type BudgetDetailResponse struct {
+        Data struct {
+                Budget          Budget  `json:"budget"`
+                ServerKnowledge int64   `json:"server_knowledge"`
+        } `json:"data"`
+}
+
+// AccountsResponse wraps accounts list response
+type AccountsResponse struct {
+        Data struct {
+                Accounts        []Account `json:"accounts"`
+                ServerKnowledge int64     `json:"server_knowledge"`
+        } `json:"data"`
+}
+
+// TransactionsResponse wraps transactions list response
+type TransactionsResponse struct {
+        Data struct {
+                Transactions    []Transaction `json:"transactions"`
+                ServerKnowledge int64         `json:"server_knowledge"`
+        } `json:"data"`
+}
+
+// TransactionResponse wraps single transaction response
+type TransactionResponse struct {
+        Data struct {
+                Transaction     Transaction `json:"transaction"`
+                ServerKnowledge int64       `json:"server_knowledge"`
+        } `json:"data"`
+}
+
+// CategoriesResponse wraps categories response
+type CategoriesResponse struct {
+        Data struct {
+                CategoryGroups  []CategoryGroup `json:"category_groups"`
+                ServerKnowledge int64           `json:"server_knowledge"`
+        } `json:"data"`
+}
+
+// PayeesResponse wraps payees list response
+type PayeesResponse struct {
+        Data struct {
+                Payees          []Payee `json:"payees"`
+                ServerKnowledge int64   `json:"server_knowledge"`
+        } `json:"data"`
+}
+
+// Helper functions
+
+// MilliunitsToFloat converts YNAB milliunits (1/1000 of currency unit) to float
+func MilliunitsToFloat(milliunits int64) float64 <span class="cov0" title="0">{
+        return float64(milliunits) / 1000.0
+}</span>
+
+// FloatToMilliunits converts float to YNAB milliunits
+func FloatToMilliunits(amount float64) int64 <span class="cov0" title="0">{
+        return int64(amount * 1000)
+}</span>
+
+// FormatCurrency formats milliunits as currency string
+func FormatCurrency(milliunits int64) string <span class="cov0" title="0">{
+        return fmt.Sprintf("$%.2f", MilliunitsToFloat(milliunits))
+}</span>
+</pre>
+		
+		<pre class="file" id="file22" style="display: none">package main
+
+import (
+        "log"
+
+        "github.com/jeff-french/ynab-mcp-server/cmd"
+)
+
+func main() <span class="cov0" title="0">{
+        if err := cmd.Execute(); err != nil </span><span class="cov0" title="0">{
+                log.Fatal(err)
+        }</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
