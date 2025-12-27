@@ -184,7 +184,7 @@ func NewGetTransactionTool(client *ynab.Client) ToolDefinition {
 		}
 
 		var result strings.Builder
-		result.WriteString(fmt.Sprintf("Transaction Details\n\n"))
+		result.WriteString("Transaction Details\n\n")
 		result.WriteString(fmt.Sprintf("Date: %s\n", tx.Date))
 		result.WriteString(fmt.Sprintf("Payee: %s\n", tx.PayeeName))
 		result.WriteString(fmt.Sprintf("Amount: %s\n", ynab.FormatCurrency(tx.Amount)))
@@ -196,7 +196,7 @@ func NewGetTransactionTool(client *ynab.Client) ToolDefinition {
 			result.WriteString(fmt.Sprintf("Memo: %s\n", tx.Memo))
 		}
 
-		result.WriteString(fmt.Sprintf("\nStatus:\n"))
+		result.WriteString("\nStatus:\n")
 		result.WriteString(fmt.Sprintf("  Cleared: %s\n", tx.Cleared))
 		result.WriteString(fmt.Sprintf("  Approved: %t\n", tx.Approved))
 		if tx.FlagColor != "" {

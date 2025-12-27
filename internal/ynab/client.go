@@ -128,13 +128,3 @@ func (c *Client) post(path string, body interface{}, result interface{}) error {
 func (c *Client) put(path string, body interface{}, result interface{}) error {
 	return c.doRequest("PUT", path, body, result)
 }
-
-// patch performs a PATCH request
-func (c *Client) patch(path string, body interface{}, result interface{}) error {
-	return c.doRequest("PATCH", path, body, result)
-}
-
-// delete performs a DELETE request
-func (c *Client) delete(path string) error {
-	return c.doRequest("DELETE", path, nil, nil)
-}
