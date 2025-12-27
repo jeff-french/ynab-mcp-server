@@ -181,9 +181,9 @@ release:
 
     For documentation and usage instructions, see the [README](https://github.com/jeff-french/ynab-mcp-server/blob/main/README.md).
 
-# Homebrew publishing via GoReleaser casks (replaces deprecated brews configuration)
-# Note: This uses GoReleaser's casks feature to publish to Homebrew tap
-casks:
+# Homebrew cask publishing (replaces deprecated brews)
+# See https://goreleaser.com/customization/homebrew_casks/
+homebrew_casks:
   - repository:
       owner: jeff-french
       name: homebrew-tap
@@ -197,9 +197,9 @@ casks:
 
     name: ynab-mcp-server
 
-    # Install the binary to /usr/local/bin
-    install: |-
-      bin.install "ynab-mcp-server"
+    # Binary name for CLI tool
+    binaries:
+      - ynab-mcp-server
 
 # Announce releases (optional - disabled by default)
 # Uncomment and configure if you want automatic announcements
