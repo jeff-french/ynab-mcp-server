@@ -53,7 +53,8 @@ func Load(configPath string) (*Config, error) {
 
 			// Create config directory if it doesn't exist
 			if _, err := os.Stat(configDir); os.IsNotExist(err) {
-				os.MkdirAll(configDir, 0755)
+				// Ignore errors - config file is optional, user can still use env vars
+				_ = os.MkdirAll(configDir, 0755)
 			}
 
 			// Use config file if it exists

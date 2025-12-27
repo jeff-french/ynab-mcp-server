@@ -47,7 +47,7 @@ func ServeHTTP(mcpServer *server.MCPServer, port int, authToken string) error {
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`{"status":"healthy","service":"ynab-mcp-server"}`))
+	_, _ = w.Write([]byte(`{"status":"healthy","service":"ynab-mcp-server"}`))
 }
 
 // rootHandler provides basic server information
@@ -59,7 +59,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/plain")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`YNAB MCP Server
+	_, _ = w.Write([]byte(`YNAB MCP Server
 
 This is a Model Context Protocol (MCP) server for YNAB (You Need A Budget).
 
@@ -82,7 +82,7 @@ func authMiddleware(next http.Handler, expectedToken string) http.Handler {
 			slog.Warn("Unauthorized request", "remote_addr", r.RemoteAddr, "path", r.URL.Path)
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusUnauthorized)
-			w.Write([]byte(`{"error":"Unauthorized","message":"Valid Bearer token required"}`))
+			_, _ = w.Write([]byte(`{"error":"Unauthorized","message":"Valid Bearer token required"}`))
 			return
 		}
 
