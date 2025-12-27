@@ -31,13 +31,19 @@ jobs:
         run: go mod download
 
       - name: Run tests
-        run: go test -v -race -coverprofile=coverage.out ./...
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            go test -v -coverprofile=coverage.txt ./...
+          else
+            go test -v -race -coverprofile=coverage.txt ./...
+          fi
 
       - name: Upload coverage to Codecov
         if: matrix.os == 'ubuntu-latest'
         uses: codecov/codecov-action@v4
         with:
-          files: ./coverage.out
+          files: ./coverage.txt
           flags: unittests
           fail_ci_if_error: false
 

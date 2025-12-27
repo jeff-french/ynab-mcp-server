@@ -25,13 +25,13 @@ test:
 
 # Run tests with coverage
 test-coverage:
-	go test -v -race -coverprofile=coverage.out ./...
-	go tool cover -html=coverage.out -o coverage.html
+	go test -v -race -coverprofile=coverage.txt ./...
+	go tool cover -html=coverage.txt -o coverage.html
 
 # Clean build artifacts
 clean:
 	@echo "Cleaning build artifacts..."
-	rm -rf dist ynab-mcp-server coverage.out coverage.html
+	rm -rf dist ynab-mcp-server coverage.txt coverage.html
 
 # Run in stdio mode (for development/testing)
 run-stdio:
