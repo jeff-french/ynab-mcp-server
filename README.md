@@ -347,7 +347,9 @@ Contributions are welcome! Please:
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes with tests
-4. Submit a pull request
+4. Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format for commit messages
+   - Examples: `feat(transactions): add bulk import`, `fix(auth): correct token refresh`, `docs(readme): update examples`
+5. Submit a pull request
 
 ## License
 

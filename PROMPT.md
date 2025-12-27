@@ -169,3 +169,42 @@ Start by:
 4. Implementing 2-3 core tools to validate both transport modes work
 5. Then expand to all major YNAB operations
 6. Add deployment configurations and documentation
+
+## COMMIT MESSAGE CONVENTION
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for all commit messages. This enables automated changelog generation and semantic versioning.
+
+### Format
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+- **feat**: New feature (minor version bump)
+- **fix**: Bug fix (patch version bump)
+- **docs**: Documentation changes
+- **style**: Code formatting (no functional changes)
+- **refactor**: Code restructuring (no functional changes)
+- **perf**: Performance improvements
+- **test**: Test additions/updates
+- **build**: Build system/dependency changes
+- **ci**: CI configuration changes
+- **chore**: Maintenance tasks
+- **revert**: Revert previous commit
+
+### Breaking Changes
+Use `!` after type or add `BREAKING CHANGE:` in footer for major version bumps.
+
+### Examples
+```
+feat(transactions): add bulk import support
+fix(auth): correct token refresh logic
+docs(readme): update installation steps
+test(ynab-client): add retry logic tests
+```
+
+**IMPORTANT**: Always use Conventional Commits format. The release process depends on this for changelogs and versioning.

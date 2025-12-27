@@ -51,6 +51,72 @@ internal/
 cmd/             # CLI commands using cobra
 ```
 
+## Commit Message Convention
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for all commit messages. This enables automated changelog generation and semantic versioning.
+
+### Commit Message Format
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+
+- **feat**: A new feature (triggers minor version bump)
+- **fix**: A bug fix (triggers patch version bump)
+- **docs**: Documentation only changes
+- **style**: Changes that don't affect code meaning (formatting, missing semicolons, etc.)
+- **refactor**: Code change that neither fixes a bug nor adds a feature
+- **perf**: Performance improvement
+- **test**: Adding or updating tests
+- **build**: Changes to build system or dependencies
+- **ci**: Changes to CI configuration files and scripts
+- **chore**: Other changes that don't modify src or test files
+- **revert**: Reverts a previous commit
+
+### Breaking Changes
+
+Add `!` after the type/scope to indicate a breaking change (triggers major version bump):
+```
+feat!: remove support for HTTP/1.0
+```
+
+Or include `BREAKING CHANGE:` in the footer:
+```
+feat: add new authentication method
+
+BREAKING CHANGE: old auth tokens are no longer supported
+```
+
+### Examples
+
+```
+feat(transactions): add support for bulk transaction import
+fix(auth): correct token refresh logic
+docs(readme): update installation instructions
+test(ynab-client): add tests for retry logic
+refactor(server): simplify transport initialization
+perf(api): reduce memory allocation in response parsing
+```
+
+### Scopes
+
+Common scopes in this project:
+- `server` - MCP server core
+- `transport` - stdio or HTTP transport
+- `tools` - MCP tool implementations
+- `ynab` - YNAB API client
+- `config` - Configuration handling
+- `auth` - Authentication logic
+- `transactions`, `budgets`, `accounts`, `categories`, `payees` - Specific features
+
+**IMPORTANT**: Always use Conventional Commits format for all commits. The release process depends on this format to generate changelogs and determine version bumps.
+
 ## Coding Conventions
 
 ### Go Best Practices
