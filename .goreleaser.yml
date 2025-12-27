@@ -181,7 +181,8 @@ release:
 
     For documentation and usage instructions, see the [README](https://github.com/jeff-french/ynab-mcp-server/blob/main/README.md).
 
-# Homebrew cask (replaces deprecated brews configuration)
+# Homebrew publishing via GoReleaser casks (replaces deprecated brews configuration)
+# Note: This uses GoReleaser's casks feature to publish to Homebrew tap
 casks:
   - repository:
       owner: jeff-french
