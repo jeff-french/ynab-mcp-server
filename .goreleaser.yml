@@ -1,0 +1,209 @@
+# GoReleaser configuration for ynab-mcp-server
+# See https://goreleaser.com for documentation
+
+version: 2
+
+before:
+  hooks:
+    # Run tests before building
+    - go test ./...
+    - go mod tidy
+
+builds:
+  - id: ynab-mcp-server
+    main: ./main.go
+    binary: ynab-mcp-server
+
+    # Version info via ldflags
+    ldflags:
+      - -s -w
+      - -X github.com/jeff-french/ynab-mcp-server/cmd.Version={{.Version}}
+
+    env:
+      - CGO_ENABLED=0
+
+    # Build for multiple platforms
+    goos:
+      - linux
+      - darwin
+      - windows
+
+    goarch:
+      - amd64
+      - arm64
+
+    # Skip unsupported combinations
+    ignore:
+      - goos: windows
+        goarch: arm64
+
+archives:
+  - id: default
+    format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+
+    # Use zip for Windows
+    format_overrides:
+      - goos: windows
+        format: zip
+
+    files:
+      - README.md
+      - LICENSE
+      - CLAUDE.md
+
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - 'merge conflict'
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+  groups:
+    - title: 'New Features'
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 0
+    - title: 'Bug Fixes'
+      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+      order: 1
+    - title: 'Performance Improvements'
+      regexp: '^.*?perf(\([[:word:]]+\))??!?:.+$'
+      order: 2
+    - title: 'Refactoring'
+      regexp: '^.*?refactor(\([[:word:]]+\))??!?:.+$'
+      order: 3
+    - title: 'Other Changes'
+      order: 999
+
+# Docker images
+dockers:
+  - image_templates:
+      - "ghcr.io/jeff-french/ynab-mcp-server:{{ .Version }}-amd64"
+      - "ghcr.io/jeff-french/ynab-mcp-server:latest-amd64"
+    use: buildx
+    goos: linux
+    goarch: amd64
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
+      - "--label=org.opencontainers.image.description=MCP server for YNAB API integration"
+      - "--label=org.opencontainers.image.url=https://github.com/jeff-french/ynab-mcp-server"
+      - "--label=org.opencontainers.image.source=https://github.com/jeff-french/ynab-mcp-server"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.licenses=MIT"
+
+  - image_templates:
+      - "ghcr.io/jeff-french/ynab-mcp-server:{{ .Version }}-arm64"
+      - "ghcr.io/jeff-french/ynab-mcp-server:latest-arm64"
+    use: buildx
+    goos: linux
+    goarch: arm64
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/arm64"
+      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
+      - "--label=org.opencontainers.image.description=MCP server for YNAB API integration"
+      - "--label=org.opencontainers.image.url=https://github.com/jeff-french/ynab-mcp-server"
+      - "--label=org.opencontainers.image.source=https://github.com/jeff-french/ynab-mcp-server"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.licenses=MIT"
+
+# Docker manifests for multi-arch images
+docker_manifests:
+  - name_template: "ghcr.io/jeff-french/ynab-mcp-server:{{ .Version }}"
+    image_templates:
+      - "ghcr.io/jeff-french/ynab-mcp-server:{{ .Version }}-amd64"
+      - "ghcr.io/jeff-french/ynab-mcp-server:{{ .Version }}-arm64"
+
+  - name_template: "ghcr.io/jeff-french/ynab-mcp-server:latest"
+    image_templates:
+      - "ghcr.io/jeff-french/ynab-mcp-server:latest-amd64"
+      - "ghcr.io/jeff-french/ynab-mcp-server:latest-arm64"
+
+# GitHub release configuration
+release:
+  github:
+    owner: jeff-french
+    name: ynab-mcp-server
+
+  draft: false
+  prerelease: auto
+  mode: append
+
+  header: |
+    ## YNAB MCP Server {{ .Version }}
+
+    This release includes pre-built binaries for multiple platforms and Docker images.
+
+    ### Installation
+
+    **Download binary:**
+    Download the appropriate binary for your platform from the assets below.
+
+    **Docker:**
+    ```bash
+    docker pull ghcr.io/jeff-french/ynab-mcp-server:{{ .Version }}
+    ```
+
+    **Homebrew (macOS/Linux):**
+    ```bash
+    brew install jeff-french/tap/ynab-mcp-server
+    ```
+
+  footer: |
+    ---
+
+    **Full Changelog**: https://github.com/jeff-french/ynab-mcp-server/compare/{{ .PreviousTag }}...{{ .Tag }}
+
+    For documentation and usage instructions, see the [README](https://github.com/jeff-french/ynab-mcp-server/blob/main/README.md).
+
+# Homebrew tap (optional but recommended)
+brews:
+  - repository:
+      owner: jeff-french
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+
+    directory: Formula
+
+    homepage: https://github.com/jeff-french/ynab-mcp-server
+    description: "MCP server for YNAB (You Need A Budget) API integration"
+    license: MIT
+
+    install: |
+      bin.install "ynab-mcp-server"
+
+    test: |
+      system "#{bin}/ynab-mcp-server", "version"
+
+# Announce releases (optional - disabled by default)
+# Uncomment and configure if you want automatic announcements
+# announce:
+#   slack:
+#     enabled: true
+#     message_template: 'YNAB MCP Server {{ .Tag }} is out! Check it out: {{ .ReleaseURL }}'
+#     channel: '#releases'

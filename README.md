@@ -1,5 +1,10 @@
 # YNAB MCP Server
 
+[![Release](https://img.shields.io/github/v/release/jeff-french/ynab-mcp-server)](https://github.com/jeff-french/ynab-mcp-server/releases)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/jeff-french/ynab-mcp-server)](https://go.dev)
+[![License](https://img.shields.io/github/license/jeff-french/ynab-mcp-server)](LICENSE)
+[![Docker Pulls](https://img.shields.io/badge/docker-ghcr.io-blue)](https://ghcr.io/jeff-french/ynab-mcp-server)
+
 A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server for [YNAB (You Need A Budget)](https://www.ynab.com) that provides seamless integration with Claude and other MCP clients. Access your budget data, manage transactions, and analyze spending through natural language conversations.
 
 ## Features
@@ -20,8 +25,23 @@ A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server for [YN
 
 ### Installation
 
-Download the pre-built binary for your platform from the [releases page](https://github.com/jeff-french/ynab-mcp-server/releases), or build from source:
+Choose your preferred installation method:
 
+**Homebrew (macOS/Linux):**
+```bash
+brew install jeff-french/tap/ynab-mcp-server
+```
+
+**Docker:**
+```bash
+docker pull ghcr.io/jeff-french/ynab-mcp-server:latest
+```
+
+**Download Binary:**
+
+Download the pre-built binary for your platform from the [releases page](https://github.com/jeff-french/ynab-mcp-server/releases).
+
+**Build from Source:**
 ```bash
 git clone https://github.com/jeff-french/ynab-mcp-server.git
 cd ynab-mcp-server

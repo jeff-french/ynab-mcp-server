@@ -40,6 +40,58 @@ make build-all
 # Build targets: linux/amd64, darwin/amd64, darwin/arm64, windows/amd64
 ```
 
+### Releasing
+
+The project uses GoReleaser and GitHub Actions for automated releases.
+
+#### Creating a Release
+
+1. Ensure all changes are committed and pushed to `main`
+2. Create and push a new tag:
+   ```bash
+   git tag -a v1.0.0 -m "Release v1.0.0"
+   git push origin v1.0.0
+   ```
+3. GitHub Actions will automatically:
+   - Run tests across all platforms
+   - Build binaries for Linux, macOS, and Windows (amd64 and arm64)
+   - Create Docker images for Linux (amd64 and arm64)
+   - Push Docker images to GitHub Container Registry
+   - Generate changelog from commits
+   - Create GitHub release with all artifacts
+   - Update Homebrew tap (if HOMEBREW_TAP_TOKEN is configured)
+
+#### Release Artifacts
+
+Each release includes:
+- Pre-built binaries for all platforms (tar.gz/zip)
+- SHA256 checksums
+- Docker images: `ghcr.io/jeff-french/ynab-mcp-server:VERSION`
+- Docker multi-arch manifest
+- Homebrew formula (optional)
+
+#### Required GitHub Secrets
+
+- `GITHUB_TOKEN` - Automatically provided by GitHub Actions
+- `HOMEBREW_TAP_TOKEN` - (Optional) Personal access token for updating Homebrew tap
+  - Create at: https://github.com/settings/tokens
+  - Needs `repo` scope
+  - Add to repository secrets at: Settings → Secrets and variables → Actions
+
+#### Testing Locally
+
+Test the release process without publishing:
+```bash
+# Install GoReleaser
+go install github.com/goreleaser/goreleaser/v2@latest
+
+# Run in snapshot mode (doesn't publish)
+goreleaser release --snapshot --clean
+
+# Check dist/ directory for artifacts
+ls -lh dist/
+```
+
 ### Docker
 ```bash
 # Build image
