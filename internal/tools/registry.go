@@ -35,5 +35,12 @@ func GetAllTools(client *ynab.Client) []ToolDefinition {
 
 		// Payee tools
 		NewListPayeesTool(client),
+
+		// Aggregation tools (reduce round trips, improve query efficiency)
+		NewGetSpendingByCategoryTool(client),
+		NewGetSpendingByMonthTool(client),
+		NewGetBudgetSummaryTool(client),
+		NewGetPayeeSummaryTool(client),
+		NewGetAccountBalancesTool(client),
 	}
 }
