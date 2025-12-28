@@ -181,24 +181,25 @@ release:
 
     For documentation and usage instructions, see the [README](https://github.com/jeff-french/ynab-mcp-server/blob/main/README.md).
 
-# Homebrew tap (optional but recommended)
-brews:
+# Homebrew cask publishing (replaces deprecated brews)
+# See https://goreleaser.com/customization/homebrew_casks/
+homebrew_casks:
   - repository:
       owner: jeff-french
       name: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
 
-    directory: Formula
+    directory: Casks
 
     homepage: https://github.com/jeff-french/ynab-mcp-server
     description: "MCP server for YNAB (You Need A Budget) API integration"
     license: MIT
 
-    install: |
-      bin.install "ynab-mcp-server"
+    name: ynab-mcp-server
 
-    test: |
-      system "#{bin}/ynab-mcp-server", "version"
+    # Binary name for CLI tool
+    binaries:
+      - ynab-mcp-server
 
 # Announce releases (optional - disabled by default)
 # Uncomment and configure if you want automatic announcements
