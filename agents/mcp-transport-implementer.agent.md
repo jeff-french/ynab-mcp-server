@@ -1,6 +1,6 @@
 ---
 name: mcp-transport-implementer
-description: Use this agent when implementing Model Context Protocol (MCP) transports, creating MCP server or client implementations, debugging MCP specification compliance issues, or validating that existing MCP code adheres to the official specification. Examples: (1) User: 'I need to implement an MCP server with HTTP transport' → Assistant: 'I'll use the mcp-transport-implementer agent to create a spec-compliant HTTP transport implementation.' (2) User: 'Can you review my MCP message handling code for spec compliance?' → Assistant: 'I'm launching the mcp-transport-implementer agent to audit your code against the MCP specification requirements.' (3) User: 'I'm getting errors with my MCP tool schema' → Assistant: 'Let me use the mcp-transport-implementer agent to validate your tool schema against the MCP specification.'
+description: Select this agent for implementing or validating MCP transports (HTTP, SSE, stdio), ensuring MCP specification compliance, or debugging MCP message format and schema issues.
 model: sonnet
 color: blue
 ---
