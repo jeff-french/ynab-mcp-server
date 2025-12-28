@@ -71,14 +71,6 @@ jobs:
           committer: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
 
-      - name: Enable Pull Request Automerge
-        if: steps.cpr.outputs.pull-request-operation == 'created'
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-          merge-method: squash
-
       - name: Summary
         if: success()
         run: |
@@ -87,7 +79,7 @@ jobs:
           if [ -n "${{ steps.cpr.outputs.pull-request-number }}" ]; then
             echo "Pull request #${{ steps.cpr.outputs.pull-request-number }} created"
             echo "PR URL: ${{ steps.cpr.outputs.pull-request-url }}"
-            echo "The PR will be auto-approved and merged by the auto-approve-bot-prs workflow"
+            echo "Please review and merge the PR manually"
           else
             echo "No changes to sync"
           fi
