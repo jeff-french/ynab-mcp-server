@@ -2,7 +2,7 @@
 
 This file provides context and guidance for GitHub Copilot when working with this repository.
 
-#AGENTS.md
+Read all primary instructions from [AGENTS.md](../AGENTS.md) file.
 
 ## Copilot-Specific Notes
 
