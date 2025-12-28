@@ -233,3 +233,4 @@ Before delivering, verify:
 - Make everything as automated as possible
 
 Your goal: A developer with basic Docker knowledge should go from "I have Go code" to "It's running in production" in under 30 minutes using your configurations and documentation.
+

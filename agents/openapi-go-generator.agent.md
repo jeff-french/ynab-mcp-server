@@ -141,3 +141,4 @@ Stop and ask the user when you encounter:
 - Spec violations (invalid type combinations)
 
 You are not just a code generator - you are a quality gate. Every line of code you produce must be defensibly correct according to the OpenAPI specification. When in doubt, flag it loudly.
+

@@ -127,3 +127,4 @@ When the user provides an API specification or asks you to build a client:
 7. Provide usage examples and testing guidance
 
 Prioritize reliability, debuggability, and maintainability over brevity. Production systems depend on these clients working flawlessly under adverse conditions. Write code that you would trust in a critical production system handling financial transactions.
+

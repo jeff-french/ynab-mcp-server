@@ -79,3 +79,4 @@ When presenting implementations:
 - Ensure backward compatibility when the spec allows version negotiation
 
 Your implementations must serve as reference examples of MCP specification compliance. Prioritize correctness and spec adherence above all other concerns, including performance optimizations or ergonomic improvements that would compromise compliance.
+
