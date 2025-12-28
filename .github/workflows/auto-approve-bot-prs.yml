@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     
     # Only run for PRs with the 'bot' label created by github-actions bot
+    # Additional security: only approve PRs from sync-agents/* branches
     if: |
       github.event.pull_request.user.login == 'github-actions[bot]' &&
-      contains(github.event.pull_request.labels.*.name, 'bot')
+      contains(github.event.pull_request.labels.*.name, 'bot') &&
+      startsWith(github.event.pull_request.head.ref, 'sync-agents/')
     
     permissions:
       pull-requests: write
