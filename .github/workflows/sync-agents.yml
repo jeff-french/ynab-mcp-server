@@ -24,8 +24,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Fetch full history to ensure proper git operations
-          fetch-depth: 0
+          # Shallow fetch is sufficient for create-pull-request workflow
+          fetch-depth: 1
 
       - name: Remove symlink and create directory
         run: |
@@ -74,7 +74,7 @@ jobs:
       - name: Summary
         if: success()
         run: |
-          echo "✅ Agent files successfully synced to .github/agents/"
+          echo "✅ Agent files prepared for sync to .github/agents/"
           echo ""
           if [ -n "${{ steps.cpr.outputs.pull-request-number }}" ]; then
             echo "Pull request #${{ steps.cpr.outputs.pull-request-number }} created"
